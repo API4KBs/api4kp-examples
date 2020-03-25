@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/CMMN/20151109/MODEL"
+  xmlns="https://clinicalknowledgemanagement.mayo.edu/artifacts/16086bb8-c1fc-49b0-800b-c9b995dc5ed5"
+  xmlns:ann="http://kmdp.mayo.edu/metadata/annotations"
+  xmlns:assets="https://clinicalknowledgemanagement.mayo.edu/assets"
+  xmlns:cmmndi="http://www.omg.org/spec/CMMN/20151109/CMMNDI"
+  xmlns:dc="http://www.omg.org/spec/CMMN/20151109/DC"
+  xmlns:di="http://www.omg.org/spec/CMMN/20151109/DI"
+  xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/"
+  xmlns:ns1="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
+  xmlns:rss="http://purl.org/rss/2.0/"
+  xmlns:surr="http://kmdp.mayo.edu/metadata/surrogate"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  expressionLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/"
+  id="_16086bb8-c1fc-49b0-800b-c9b995dc5ed5"
+  name="Basic Case Model"
+  targetNamespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/16086bb8-c1fc-49b0-800b-c9b995dc5ed5"
+  xsi:schemaLocation="http://kmdp.mayo.edu/metadata/surrogate xsd/metadata/surrogate/surrogate.xsd http://kmdp.mayo.edu/metadata/annotations xsd/metadata/annotations/annotations.xsd CMMN_1_1 http://www.omg.org/spec/CMMN/20151109/MODEL">
+  <semantic:caseFileItemDefinition name="Case File Item Data"
+    definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType"
+    id="_6894ff5f-130a-46a1-bcc4-5e915acd7c9b"/>
+  <semantic:caseFileItemDefinition name="Knowledge - ICD Indications in HCM"
+    definitionType="http://www.omg.org/spec/CMMN/DefinitionType/CMISDocument"
+    id="_00f6dab7-b939-4816-868e-0a64d6ee4994"/>
+  <semantic:caseFileItemDefinition name="Case File Item Decision"
+    id="_f6e3c065-be28-4e35-ac1f-b5fae6a2ddb5"/>
+  <semantic:case id="Case_c5b0fddc-013d-4dfb-be05-1f83f22767c1">
+    <semantic:extensionElements>
+      <ann:basicAnnotation xmlns:id="http://www.omg.org/spec/API4KP/1.0/identifiers"
+        expr="https://clinicalknowledgemanagement.mayo.edu/assets/14321e7c-cb9a-427f-abf5-1420bf26e03c/versions/1.0.1">
+        <ann:rel label="has ID"
+          ref="https://www.omg.org/spec/API4KP/api4kp/identified-by"
+          tag="identified-by">
+          <id:namespace id="https://www.omg.org/spec/API4KP/api4kp"/>
+        </ann:rel>
+      </ann:basicAnnotation>
+      <ann:simpleAnnotation xmlns:id="http://www.omg.org/spec/API4KP/1.0/identifiers">
+        <ann:rel label="is a"
+          ref="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+          tag="type">
+          <id:namespace id="http://www.w3.org/1999/02/22-rdf-syntax-ns"/>
+        </ann:rel>
+        <ann:expr
+          conceptId="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType#e12dcd92-f8de-3115-b8ca-4480cfc44d77"
+          label="KnowledgeAssetTypes - 20190801 - Cognitive Process Modelin 'KnowledgeAssetTypes - 20190801'"
+          ref="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType/20190801/"
+          tag="d664416f-ba40-4259-a682-f67e83b28186"/>
+      </ann:simpleAnnotation>
+    </semantic:extensionElements>
+    <semantic:caseFileModel>
+      <semantic:caseFileItem id="_51629986-fc6c-4759-9dd1-46eb369d3612"
+        name="Case File Item Decision" definitionRef="_f6e3c065-be28-4e35-ac1f-b5fae6a2ddb5"/>
+      <semantic:caseFileItem id="_732407a2-b292-4b8a-bd44-1d04f6ba8e7f" name="Case File Item Data"
+        definitionRef="_6894ff5f-130a-46a1-bcc4-5e915acd7c9b"/>
+      <semantic:caseFileItem id="_e3b0b96f-741f-4852-98a9-b332c24e4f18"
+        name="Knowledge - ICD Indications in HCM"
+        definitionRef="_00f6dab7-b939-4816-868e-0a64d6ee4994"/>
+    </semantic:caseFileModel>
+    <semantic:casePlanModel id="_c5b0fddc-013d-4dfb-be05-1f83f22767c1">
+      <semantic:planItem id="_0b13f9ff-726e-4a7e-b42f-f2497ca47c39"
+        definitionRef="PID__0b13f9ff-726e-4a7e-b42f-f2497ca47c39"/>
+      <semantic:planItem id="_4ad6c909-d593-4616-9bf6-af18752fbbfc"
+        definitionRef="PID__4ad6c909-d593-4616-9bf6-af18752fbbfc"/>
+      <semantic:decisionTask id="PID__0b13f9ff-726e-4a7e-b42f-f2497ca47c39"
+        name="Make Basic Decision" decisionRef="_7dfe244c35cffbd4efa07be80b4df2be">
+        <semantic:extensionElements>
+            <ann:datatypeAnnotation xmlns:id="http://www.omg.org/spec/API4KP/1.0/identifiers"
+              value="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356#4a4a026a-5de7-4b57-aad9-e0ce1f8a9719">
+                <ann:rel
+                  conceptId="https://ontology.mayo.edu/taxonomies/KAO/Rel/DependencyRelType#a6878bf5-d858-3676-83a1-ef2871d36f47"
+                  label="imports"
+                  ref="https://www.omg.org/spec/API4KP/api4kp/imports"
+                  tag="imports">
+                    <id:conceptUUID>a6878bf5-d858-3676-83a1-ef2871d36f47</id:conceptUUID>
+                    <id:namespace id="https://ontology.mayo.edu/taxonomies/KAO/Rel/DependencyRelType"
+                      label="DependencyTypes"
+                      tag="a0813f70-fc74-3383-b01e-b7d9b00870ff"/>
+                </ann:rel>
+            </ann:datatypeAnnotation>
+        </semantic:extensionElements>
+        <semantic:defaultControl>
+          <semantic:manualActivationRule/>
+        </semantic:defaultControl>
+      </semantic:decisionTask>
+      <semantic:humanTask id="PID__4ad6c909-d593-4616-9bf6-af18752fbbfc"
+        name="Task with Task Concept" isBlocking="false">
+        <semantic:extensionElements>
+                <ann:simpleAnnotation xmlns:id="http://www.omg.org/spec/API4KP/1.0/identifiers">
+                    <ann:rel label="captures"
+                      ref="https://www.omg.org/spec/API4KP/api4kp/captures"
+                      tag="captures">
+                        <id:namespace id="https://www.omg.org/spec/API4KP/api4kp"/>
+                    </ann:rel>
+                    <ann:expr
+                      conceptId="https://ontology.mayo.edu/taxonomies/ClinicalTasks#0125bd33-f63d-3376-8203-c81a975b74e2"
+                      label="ClinicalTasks - 20190801 - Discuss Recommendations for HFrEF"
+                      ref="https://ontology.mayo.edu/taxonomies/ClinicalTasks/20190801/"
+                      tag="_25983d88-3393-4a09-9774-b2ec1f834cb8"/>
+                </ann:simpleAnnotation>
+        </semantic:extensionElements>
+        <semantic:defaultControl>
+          <semantic:manualActivationRule/>
+        </semantic:defaultControl>
+      </semantic:humanTask>
+    </semantic:casePlanModel>
+  </semantic:case>
+  <semantic:decision id="_7dfe244c35cffbd4efa07be80b4df2be" externalRef="ns1:_4a4a026a-5de7-4b57-aad9-e0ce1f8a9719" implementationType="http://www.omg.org/spec/CMMN/DecisionType/DMN1" name="Basic Decision"/>
+  <semantic:textAnnotation id="_72232623-faf7-4f46-97ab-1211522fce68">
+    <semantic:text>Asset ID in both case file item definition and in the identifier field, URL of
+      the KCMS content under attachments
+    </semantic:text>
+  </semantic:textAnnotation>
+  <semantic:textAnnotation id="_10eb8352-ab24-4d4c-abd8-a33ab5e1d00d">
+    <semantic:text>Propositional concept of "Prior Management of HFrEF - same as the propositional
+      concept on the operational definition model. Data type is "data"
+    </semantic:text>
+  </semantic:textAnnotation>
+  <semantic:association id="_122f94c2-88dd-454c-a5ea-db0b73ef832f"
+    sourceRef="_10eb8352-ab24-4d4c-abd8-a33ab5e1d00d"
+    targetRef="_51629986-fc6c-4759-9dd1-46eb369d3612"/>
+  <semantic:association id="_f4631bb4-f28f-4164-a635-4c28da04fa88"
+    sourceRef="_72232623-faf7-4f46-97ab-1211522fce68"
+    targetRef="_e3b0b96f-741f-4852-98a9-b332c24e4f18"/>
+  <semantic:association id="_cf1c8685-039b-41e7-ac69-b91551bd8322"
+    sourceRef="_51629986-fc6c-4759-9dd1-46eb369d3612"
+    targetRef="_0b13f9ff-726e-4a7e-b42f-f2497ca47c39"/>
+  <semantic:association id="_77e63d1a-b036-4793-ba44-976e98d4f1a2"
+    sourceRef="_732407a2-b292-4b8a-bd44-1d04f6ba8e7f"
+    targetRef="_0b13f9ff-726e-4a7e-b42f-f2497ca47c39"/>
+  <semantic:association id="_aac02834-1fce-42da-8264-b5b1b69f8e0d"
+    sourceRef="_e3b0b96f-741f-4852-98a9-b332c24e4f18"
+    targetRef="_4ad6c909-d593-4616-9bf6-af18752fbbfc"/>
+</semantic:definitions>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <artifactId>kmdp-bom</artifactId>
+    <groupId>edu.mayo.kmdp</groupId>
+    <version>7.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>API4KP-examples</artifactId>
+  <groupId>org.omg.spec</groupId>
+  <version>7.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>API4KP :: Examples</name>
+  <description>Examples of use of the API4KP APIs</description>
+  
+  <developers>
+    <developer>
+      <name>Davide Sottara</name>
+      <email>sottara.davide@mayo.edu</email>
+      <organization>Mayo Clinic</organization>
+      <organizationUrl>http://www.mayo.edu</organizationUrl>
+    </developer>
+  </developers>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <kmdp.servers.version>3.7.0-SNAPSHOT</kmdp.servers.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-knowledge-asset-repository-core</artifactId>
+      <version>${kmdp.servers.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-inference-broker-core</artifactId>
+      <version>${kmdp.servers.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-asset-repository-service-client</artifactId>
+      <version>${kmdp.impl.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-asset-repository-service-server</artifactId>
+      <version>${kmdp.impl.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>edu.mayo.kmdp</groupId>
+      <artifactId>kmdp-artifact-transrepresentation-service-client</artifactId>
+      <version>${kmdp.impl.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-test</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
+
