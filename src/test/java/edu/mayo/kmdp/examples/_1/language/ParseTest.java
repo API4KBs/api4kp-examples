@@ -11,12 +11,11 @@ import static org.omg.spec.api4kp._1_0.AbstractCarrier.of;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
 
 import edu.mayo.kmdp.examples.PlatformConfig;
-import edu.mayo.kmdp.tranx.v3.server.DeserializeApiInternal;
-import edu.mayo.kmdp.tranx.v3.server.DetectApiInternal;
+import edu.mayo.kmdp.tranx.v4.server.DeserializeApiInternal;
+import edu.mayo.kmdp.tranx.v4.server.DetectApiInternal;
 import javax.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.omg.spec.api4kp._1_0.services.DocumentCarrier;
 import org.omg.spec.api4kp._1_0.services.ExpressionCarrier;
 import org.omg.spec.api4kp._1_0.services.KPServer;
 import org.omg.spec.api4kp._1_0.services.SyntacticRepresentation;
@@ -42,7 +41,7 @@ public class ParseTest {
     byte[] data = readBytes(DetectTest.class.getResourceAsStream("/mock/Basic Case Model.cmmn.xml"))
         .orElseGet(Assertions::fail);
 
-    Object ast =
+    TDefinitions cmmnModel =
         parser.lift(of(data)
             .withRepresentation(
                 detector.getDetectedRepresentation(of(data)).orElseGet(Assertions::fail)
@@ -50,18 +49,17 @@ public class ParseTest {
             .flatOpt(kc -> kc.as(TDefinitions.class))
             .orElseGet(Assertions::fail);
 
-    System.out.println("Parsed Model >> " + ast.getClass());
-    TDefinitions cmmnModel = (TDefinitions) ast;
     System.out.println("Model Name >>> " + cmmnModel.getName());
   }
 
   @Test
   void testParseDMNWithAssertedRepresentation() {
-    byte[] data = readBytes(DetectTest.class.getResourceAsStream("/mock/Basic Decision Model.dmn.xml"))
+    byte[] data = readBytes(
+        DetectTest.class.getResourceAsStream("/mock/Basic Decision Model.dmn.xml"))
         .orElseGet(Assertions::fail);
 
-    Object ast =
-        parser.lift( of( data )
+    org.omg.spec.dmn._20180521.model.TDefinitions dmnModel =
+        parser.lift(of(data)
             .withRepresentation(
                 new SyntacticRepresentation()
                     .withLanguage(DMN_1_2)
@@ -71,41 +69,41 @@ public class ParseTest {
             .flatOpt(kc -> kc.as(org.omg.spec.dmn._20180521.model.TDefinitions.class))
             .orElseGet(Assertions::fail);
 
-    System.out.println("Parsed Model >> " + ast.getClass());
-    org.omg.spec.dmn._20180521.model.TDefinitions dmnModel = (org.omg.spec.dmn._20180521.model.TDefinitions) ast;
     System.out.println("Model Name >>> " + dmnModel.getName());
   }
 
   @Test
   void testParseDMNToDOM() {
-    byte[] data = readBytes(DetectTest.class.getResourceAsStream("/mock/Basic Decision Model.dmn.xml"))
+    byte[] data = readBytes(
+        DetectTest.class.getResourceAsStream("/mock/Basic Decision Model.dmn.xml"))
         .orElseGet(Assertions::fail);
 
-    Object dox =
-        parser.lift( of( data )
-            .withRepresentation(rep(DMN_1_2,DMN_1_2_XML_Syntax,XML_1_1)), Parsed_Knowedge_Expression)
-            .map(DocumentCarrier.class::cast)
-            .map(DocumentCarrier::getStructuredExpression)
+    Document dox =
+        parser.lift(of(data)
+                .withRepresentation(rep(DMN_1_2, DMN_1_2_XML_Syntax, XML_1_1)),
+            Parsed_Knowedge_Expression)
+            .flatOpt(kc -> kc.asParseTree(Document.class))
             .orElseGet(Assertions::fail);
 
     System.out.println("Parsed Model >> " + dox.getClass());
-    Document dmnDox = (Document) dox;
-    System.out.println("Model Name >>> " + dmnDox.getDocumentElement().getAttribute("name"));
+    System.out.println("Model Name >>> " + dox.getDocumentElement().getAttribute("name"));
   }
 
   @Test
   void testParseDMNToString() {
-    byte[] data = readBytes(DetectTest.class.getResourceAsStream("/mock/Basic Decision Model.dmn.xml"))
+    byte[] data = readBytes(
+        DetectTest.class.getResourceAsStream("/mock/Basic Decision Model.dmn.xml"))
         .orElseGet(Assertions::fail);
 
     Object dmnStr =
-        parser.lift( of( data )
-            .withRepresentation(rep(DMN_1_2,DMN_1_2_XML_Syntax,XML_1_1)), Concrete_Knowledge_Expression)
+        parser.lift(of(data)
+                .withRepresentation(rep(DMN_1_2, DMN_1_2_XML_Syntax, XML_1_1)),
+            Concrete_Knowledge_Expression)
             .map(ExpressionCarrier.class::cast)
             .map(ExpressionCarrier::getSerializedExpression)
             .orElseGet(Assertions::fail);
 
     System.out.println("Parsed Model >> " + dmnStr.getClass());
-    System.out.println("Model >>> \n" + dmnStr.toString().substring(0,300));
+    System.out.println("Model >>> \n" + dmnStr.toString().substring(0, 300));
   }
 }

@@ -1,11 +1,9 @@
 package edu.mayo.kmdp.examples._1.language;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.of;
 
 import edu.mayo.kmdp.examples.PlatformConfig;
-import edu.mayo.kmdp.tranx.v3.server.DetectApiInternal;
+import edu.mayo.kmdp.tranx.v4.server.DetectApiInternal;
 import java.io.InputStream;
 import javax.inject.Inject;
 import org.junit.jupiter.api.Assertions;
@@ -28,7 +26,7 @@ public class DetectTest {
     InputStream is = DetectTest.class.getResourceAsStream("/mock/Basic Case Model.cmmn.xml");
 
     SyntacticRepresentation rep
-        = detector.getDetectedRepresentation( of( is ) )
+        = detector.getDetectedRepresentation(of(is))
         .orElseGet(Assertions::fail);
 
     System.out.println("Detected Language >> " + rep.getLanguage());
@@ -41,7 +39,7 @@ public class DetectTest {
     InputStream is = DetectTest.class.getResourceAsStream("/mock/Basic Decision Model.dmn.xml");
 
     SyntacticRepresentation rep
-        = detector.getDetectedRepresentation( of( is ) )
+        = detector.getDetectedRepresentation(of(is))
         .orElseGet(Assertions::fail);
 
     System.out.println("Detected Language >> " + rep.getLanguage());
@@ -55,7 +53,7 @@ public class DetectTest {
     InputStream is = DetectTest.class.getResourceAsStream("/mock/Basic Ontology.owl");
 
     SyntacticRepresentation rep
-        = detector.getDetectedRepresentation( of( is ) )
+        = detector.getDetectedRepresentation(of(is))
         .orElseGet(Assertions::fail);
 
     System.out.println("Detected Language >> " + rep.getLanguage());

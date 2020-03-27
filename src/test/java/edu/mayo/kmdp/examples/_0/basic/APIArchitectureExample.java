@@ -3,28 +3,28 @@ package edu.mayo.kmdp.examples._0.basic;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
-import edu.mayo.kmdp.repository.asset.v3.KnowledgeAssetCatalogApi;
-import edu.mayo.kmdp.repository.asset.v3.client.ApiClientFactory;
-import edu.mayo.kmdp.repository.asset.v3.server.KnowledgeAssetCatalogApiDelegate;
-import edu.mayo.kmdp.repository.asset.v3.server.KnowledgeAssetCatalogApiInternal;
-import edu.mayo.kmdp.repository.asset.v3.server.KnowledgeAssetCatalogApiInternalAdapter;
+import edu.mayo.kmdp.repository.asset.v4.KnowledgeAssetCatalogApi;
+import edu.mayo.kmdp.repository.asset.v4.client.ApiClientFactory;
+import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetCatalogApiDelegate;
+import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetCatalogApiInternal;
+import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetCatalogApiInternalAdapter;
 import java.util.List;
 import java.util.UUID;
 import org.omg.spec.api4kp._1_0.Answer;
-import org.omg.spec.api4kp._1_0.identifiers.Pointer;
+import org.omg.spec.api4kp._1_0.id.Pointer;
 import org.omg.spec.api4kp._1_0.services.repository.KnowledgeAssetCatalog;
 
 /**
- * This example uses the KnowledgeAssetRepositoryAPI to demonstrate how
- * to implement a server, and connect to it using a client
+ * This example uses the KnowledgeAssetRepositoryAPI to demonstrate how to implement a server, and
+ * connect to it using a client
  */
 public class APIArchitectureExample {
 
 
   /**
-   * This test demonstrates various ways for a client to obtain an instance of an API4KP server
-   * As various forms of proxying and/or delegation (including web-based services) are provided
-   * through code-generation, the goal is to offer a single, transparent interface.
+   * This test demonstrates various ways for a client to obtain an instance of an API4KP server As
+   * various forms of proxying and/or delegation (including web-based services) are provided through
+   * code-generation, the goal is to offer a single, transparent interface.
    */
   public void testLocalClientInitialization() {
 
@@ -43,15 +43,17 @@ public class APIArchitectureExample {
   public void testRemoteClientInitialization() {
 
     // Otherwise, the client can connect to a web service
-    KnowledgeAssetCatalogApi restClient = KnowledgeAssetCatalogApi.newInstance(new ApiClientFactory("http://localhost:8080"));
+    KnowledgeAssetCatalogApi restClient = KnowledgeAssetCatalogApi
+        .newInstance(new ApiClientFactory("http://localhost:8080"));
     assertTrue(restClient.getAssetCatalog().isSuccess());
 
   }
 
 
   /**
-   * A mock factory method that returns a server implementing an API4KP interface
-   * All the operations, except for 'getAssetCatalog' are unsupported.
+   * A mock factory method that returns a server implementing an API4KP interface All the
+   * operations, except for 'getAssetCatalog' are unsupported.
+   *
    * @return A mock implementation of the KnowledgeAssetCatalog API
    */
   KnowledgeAssetCatalogApiInternal newServerImplementation() {

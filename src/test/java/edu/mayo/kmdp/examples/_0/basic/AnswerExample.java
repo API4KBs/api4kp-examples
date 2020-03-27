@@ -10,10 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.omg.spec.api4kp._1_0.Answer;
 
 /**
- * Answer ({@link org.omg.spec.api4kp._1_0.Answer}) is the monad-style wrapper
- * that combines famous monads such as Optional/Maybe, Try (for error handling),
- * Writer (for explanations) and Composite
- *
+ * Answer ({@link org.omg.spec.api4kp._1_0.Answer}) is the monad-style wrapper that combines famous
+ * monads such as Optional/Maybe, Try (for error handling), Writer (for explanations) and Composite
  */
 public class AnswerExample {
 

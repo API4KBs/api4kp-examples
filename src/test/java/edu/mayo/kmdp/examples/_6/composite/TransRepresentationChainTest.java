@@ -1,11 +1,11 @@
 /**
  * Copyright © 2018 Mayo Clinic (RSTKNOWLEDGEMGMT@mayo.edu)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -18,17 +18,13 @@ import static edu.mayo.ontology.taxonomies.api4kp.parsinglevel.ParsingLevelSerie
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.FHIR_STU3;
 import static edu.mayo.ontology.taxonomies.lexicon.LexiconSeries.PCV;
 import static edu.mayo.ontology.taxonomies.lexicon.LexiconSeries.SNOMED_CT;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
 
-import edu.mayo.kmdp.id.helper.DatatypeHelper;
 import edu.mayo.kmdp.util.JenaUtil;
 import edu.mayo.kmdp.util.fhir.fhir3.FHIR3JsonUtil;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import org.apache.jena.base.Sys;
 import org.apache.jena.rdf.model.Model;
 import org.hl7.fhir.dstu3.model.PlanDefinition;
 import org.junit.jupiter.api.Assertions;
@@ -43,17 +39,21 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
 
   @Override
   protected List<String> getXMLS() {
-    return  Arrays.asList(
+    return Arrays.asList(
         "/mock/Basic Case Model.cmmn.xml",
         "/mock/Basic Decision Model.dmn.xml"
     );
   }
 
   @Override
-  protected UUID getRootAssetID() { return UUID.fromString("14321e7c-cb9a-427f-abf5-1420bf26e03c"); }
+  protected UUID getRootAssetID() {
+    return UUID.fromString("14321e7c-cb9a-427f-abf5-1420bf26e03c");
+  }
 
   @Override
-  protected String getRootAssetVersion() { return "1.0.1"; }
+  protected String getRootAssetVersion() {
+    return "1.0.1";
+  }
 
 
   @Test
@@ -102,7 +102,8 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
 
     CompositeKnowledgeCarrier ckc = (CompositeKnowledgeCarrier) composite;
     ckc.getComponent().forEach(comp -> {
-      System.out.println("Component : " + comp.getRepresentation().getLanguage() + " " + comp.getLevel());
+      System.out
+          .println("Component : " + comp.getRepresentation().getLanguage() + " " + comp.getLevel());
     });
   }
 
@@ -120,20 +121,18 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
     KnowledgeCarrier wovenComposite =
         // Init empty KB
         kbManager.initKnowledgeBase()
-            .map(DatatypeHelper::deRef)
             // Add composite to KB
             .flatMap(vid ->
-                kbManager.populateKnowledgeBase(UUID.fromString(vid.getTag()), vid.getVersion(), parsedComposite))
-            .map(DatatypeHelper::deRef)
+                kbManager.populateKnowledgeBase(UUID.fromString(vid.getTag()), vid.getVersionTag(),
+                    parsedComposite))
             // IoC : the weaver will retrieve the KB from the manager and apply the dictionary to the KB content
             .flatMap(vid ->
-                weaver.weave(UUID.fromString(vid.getTag()), vid.getVersion(), dictionary))
-            .map(DatatypeHelper::deRef)
+                weaver.weave(vid.getUuid(), vid.getVersionTag(), dictionary))
             // Get the result
             .flatMap(vid ->
-                kbManager.getKnowledgeBase(UUID.fromString(vid.getTag()), vid.getVersion()))
+                kbManager.getKnowledgeBase(vid.getUuid(), vid.getVersionTag()))
             .map(KnowledgeBase::getManifestation)
-        .orElseGet(Assertions::fail);
+            .orElseGet(Assertions::fail);
 
     KnowledgeCarrier decisionModelComponent
         = ((CompositeKnowledgeCarrier) wovenComposite).getComponent().get(1);
@@ -153,25 +152,24 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
 
     Answer<KnowledgeCarrier> wovenComposite =
         kbManager.initKnowledgeBase()
-            .map(DatatypeHelper::deRef)
             .flatMap(vid ->
-                kbManager.populateKnowledgeBase(UUID.fromString(vid.getTag()), vid.getVersion(), parsedComposite))
-            .map(DatatypeHelper::deRef)
+                kbManager.populateKnowledgeBase(vid.getUuid(), vid.getVersionTag(),
+                    parsedComposite))
             .flatMap(vid ->
-                weaver.weave(UUID.fromString(vid.getTag()), vid.getVersion(), loadDictionary()))
-            .map(DatatypeHelper::deRef)
+                weaver.weave(vid.getUuid(), vid.getVersionTag(), loadDictionary()))
             .flatMap(vid ->
-                kbManager.getKnowledgeBase(UUID.fromString(vid.getTag()), vid.getVersion()))
+                kbManager.getKnowledgeBase(vid.getUuid(), vid.getVersionTag()))
             .map(KnowledgeBase::getManifestation);
 
     KnowledgeCarrier planDefinitionComposite =
         wovenComposite.flatMap(ckc ->
             translator.applyTransrepresentationInto(ckc, rep(FHIR_STU3, SNOMED_CT, PCV)))
-                .orElseGet(Assertions::fail);
+            .orElseGet(Assertions::fail);
 
     CompositeKnowledgeCarrier ckc = (CompositeKnowledgeCarrier) planDefinitionComposite;
     ckc.getComponent().forEach(comp -> {
-      System.out.println("Component : " + comp.getRepresentation().getLanguage() + " " + comp.getLevel());
+      System.out
+          .println("Component : " + comp.getRepresentation().getLanguage() + " " + comp.getLevel());
     });
   }
 
@@ -183,18 +181,15 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
             .flatMap(kc -> parser.lift(kc, Abstract_Knowledge_Expression))
             .flatMap(parsedComposite ->
                 kbManager.initKnowledgeBase()
-                    .map(DatatypeHelper::deRef)
                     .flatMap(vid ->
                         kbManager
-                            .populateKnowledgeBase(UUID.fromString(vid.getTag()), vid.getVersion(),
+                            .populateKnowledgeBase(vid.getUuid(), vid.getVersionTag(),
                                 parsedComposite))
-                    .map(DatatypeHelper::deRef)
                     .flatMap(vid ->
-                        weaver.weave(UUID.fromString(vid.getTag()), vid.getVersion(),
+                        weaver.weave(vid.getUuid(), vid.getVersionTag(),
                             loadDictionary()))
-                    .map(DatatypeHelper::deRef)
                     .flatMap(vid ->
-                        kbManager.getKnowledgeBase(UUID.fromString(vid.getTag()), vid.getVersion()))
+                        kbManager.getKnowledgeBase(vid.getUuid(), vid.getVersionTag()))
                     .map(KnowledgeBase::getManifestation))
             .flatMap(ckc ->
                 translator.applyTransrepresentationInto(ckc, rep(FHIR_STU3, SNOMED_CT, PCV)))

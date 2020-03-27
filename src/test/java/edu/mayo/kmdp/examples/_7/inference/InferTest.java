@@ -1,8 +1,8 @@
 package edu.mayo.kmdp.examples._7.inference;
 
-import static edu.mayo.kmdp.SurrogateBuilder.assetId;
-import static edu.mayo.kmdp.id.helper.DatatypeHelper.uri;
 import static edu.mayo.kmdp.kbase.introspection.dmn.v1_1.DMN11MetadataIntrospector.DMN1_1_EXTRACTOR;
+import static edu.mayo.kmdp.metadata.v2.surrogate.SurrogateBuilder.artifactId;
+import static edu.mayo.kmdp.metadata.v2.surrogate.SurrogateBuilder.assetId;
 import static edu.mayo.ontology.taxonomies.krformat.SerializationFormatSeries.XML_1_1;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.DMN_1_1;
 import static java.util.Collections.emptyMap;
@@ -10,18 +10,14 @@ import static org.omg.spec.api4kp._1_0.AbstractCarrier.of;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
 
 import edu.mayo.kmdp.examples._3.publish.PublicationTest;
-import edu.mayo.kmdp.id.VersionedIdentifier;
-import edu.mayo.kmdp.inference.v3.server.InferenceApiInternal._infer;
+import edu.mayo.kmdp.inference.v4.server.InferenceApiInternal._infer;
 import edu.mayo.kmdp.kbase.inference.dmn.v1_1.DMNEngineProvider;
 import edu.mayo.kmdp.kbase.introspection.dmn.v1_1.DMN11MetadataIntrospector;
 import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
-import edu.mayo.kmdp.knowledgebase.v3.server.KnowledgeBaseApiInternal;
+import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
 import edu.mayo.kmdp.util.FileUtil;
-import edu.mayo.kmdp.util.Util;
-import edu.mayo.ontology.taxonomies.krformat.SerializationFormatSeries;
-import edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -40,15 +36,17 @@ public class InferTest {
 
   DMN11MetadataIntrospector introspector = new DMN11MetadataIntrospector();
 
-  KnowledgeAssetRepositoryService assetRepo = KnowledgeAssetRepositoryService.selfContainedRepository();
+  KnowledgeAssetRepositoryService assetRepo = KnowledgeAssetRepositoryService
+      .selfContainedRepository();
   KnowledgeBaseApiInternal kbaseManager = new KnowledgeBaseProvider(assetRepo);
 
   private void publish() {
-    byte[] modelData = FileUtil.readBytes(PublicationTest.class.getResourceAsStream("/mock/MockPredictor.dmn"))
+    byte[] modelData = FileUtil
+        .readBytes(PublicationTest.class.getResourceAsStream("/mock/MockPredictor.dmn"))
         .orElseGet(Assertions::fail);
     KnowledgeCarrier artifactCarrier = of(modelData)
-        .withAssetId(assetId(modelId,versionTag))
-        .withArtifactId(uri(UUID.randomUUID().toString(),versionTag))
+        .withAssetId(assetId(modelId, versionTag))
+        .withArtifactId(artifactId(UUID.randomUUID().toString(), versionTag))
         .withRepresentation(rep(DMN_1_1, XML_1_1));
 
     // introspect
@@ -57,7 +55,7 @@ public class InferTest {
             .flatOpt(kc -> kc.as(KnowledgeAsset.class))
             .orElseGet(Assertions::fail);
 
-    assetRepo.publish(surrogate,artifactCarrier);
+    assetRepo.publish(surrogate, artifactCarrier);
   }
 
   private _infer initInference() {
@@ -66,7 +64,7 @@ public class InferTest {
         // get Metadata
         .getVersionedKnowledgeAsset(modelId, versionTag)
         // Use metadata to instantiate the appropriate engine
-          // and deploy the KB constructed around the asset
+        // and deploy the KB constructed around the asset
         .flatOpt(asset -> new DMNEngineProvider(kbaseManager).apply(asset))
         .orElseGet(Assertions::fail);
   }
@@ -76,12 +74,12 @@ public class InferTest {
     _infer infService = initInference();
 
     Map<String, Type> map = new HashMap<>();
-    map.put( MockVocab.Current_Caffeine_User.getTag(),
-        new BooleanType().setValue( true ) );
-    map.put( MockVocab.Current_Chronological_Age.getTag(),
-        new IntegerType().setValue( 37 ) );
+    map.put(MockVocab.Current_Caffeine_User.getTag(),
+        new BooleanType().setValue(true));
+    map.put(MockVocab.Current_Chronological_Age.getTag(),
+        new IntegerType().setValue(37));
 
-    java.util.Map<?,?> out = infService.infer( modelId, versionTag, map )
+    java.util.Map<?, ?> out = infService.infer(modelId, versionTag, map)
         .orElse(emptyMap());
 
     System.out.println(out);

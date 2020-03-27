@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"
-  xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
-  xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/"
-  xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
   xmlns:triso="http://www.trisotech.com/2015/triso/modeling"
   namespace="http://www.trisotech.com/definitions/_deda9ce8-ca68-456e-b9d1-96d338469988" name="CS"
   id="_deda9ce8-ca68-456e-b9d1-96d338469988">

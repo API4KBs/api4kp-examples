@@ -35,7 +35,7 @@ public enum MockVocab implements Term {
   );
 
 
-  public static final Map<UUID,MockVocab> INDEX = Arrays.stream(MockVocab.values())
+  public static final Map<UUID, MockVocab> INDEX = Arrays.stream(MockVocab.values())
       .collect(Collectors.toConcurrentMap(Term::getConceptUUID, Function.identity()));
 
   private UUID uuid;
@@ -44,7 +44,7 @@ public enum MockVocab implements Term {
 
   MockVocab(final String code,
       final String displayName) {
-    this(Util.uuid(code).toString(),code,displayName);
+    this(Util.uuid(code).toString(), code, displayName);
   }
 
   MockVocab(final String conceptUUID,
@@ -67,7 +67,6 @@ public enum MockVocab implements Term {
   public static Optional<MockVocab> resolveUUID(final UUID conceptId) {
     return Optional.ofNullable(INDEX.get(conceptId));
   }
-
 
 
   @Override

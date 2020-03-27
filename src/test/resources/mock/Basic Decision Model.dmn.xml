@@ -2,20 +2,14 @@
 <semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"
   xmlns="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
   xmlns:ann="http://kmdp.mayo.edu/metadata/annotations"
-  xmlns:assets="https://clinicalknowledgemanagement.mayo.edu/assets"
   xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
   xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
   xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/"
-  xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/"
-  xmlns:openapi="https://openapis.org/omg/extension/1.0"
-  xmlns:rss="http://purl.org/rss/2.0/"
-  xmlns:surr="http://kmdp.mayo.edu/metadata/surrogate"
-  xmlns:tc="http://www.omg.org/spec/DMN/20160719/testcase"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   id="_ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
   name="Basic Decision Model"
   namespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
-  xsi:schemaLocation="http://kmdp.mayo.edu/metadata/surrogate xsd/metadata/surrogate/surrogate.xsd http://kmdp.mayo.edu/metadata/annotations xsd/metadata/annotations/annotations.xsd https://www.omg.org/spec/DMN/1.2/ http://www.omg.org/spec/DMN/20180521/MODEL/">
+  xsi:schemaLocation="http://kmdp.mayo.edu/metadata/annotations xsd/metadata/annotations/annotations.xsd">
   <semantic:extensionElements/>
   <semantic:decisionService id="_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_DS"
     name="Whole Model Decision Service">

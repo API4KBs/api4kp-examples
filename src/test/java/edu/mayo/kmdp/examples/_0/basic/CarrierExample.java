@@ -1,12 +1,14 @@
 package edu.mayo.kmdp.examples._0.basic;
 
+import static edu.mayo.kmdp.metadata.v2.surrogate.SurrogateBuilder.artifactId;
+import static edu.mayo.kmdp.metadata.v2.surrogate.SurrogateBuilder.assetId;
 import static edu.mayo.ontology.taxonomies.krformat.SerializationFormatSeries.XML_1_1;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.XHTML;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
+import static org.omg.spec.api4kp._1_0.id.IdentifierConstants.VERSION_ZERO;
 
-import edu.mayo.kmdp.id.helper.DatatypeHelper;
 import java.net.URI;
 import org.junit.jupiter.api.Test;
 import org.omg.spec.api4kp._1_0.AbstractCarrier;
@@ -38,8 +40,8 @@ public class CarrierExample {
             + "</body> "
             + "</html> ")
         .withRepresentation(rep(XHTML, XML_1_1))
-        .withAssetId(DatatypeHelper.uri("asset000", "0.0.0"))
-        .withArtifactId(DatatypeHelper.uri("artifact123", "0.0.1"))
+        .withAssetId(assetId("asset000", VERSION_ZERO))
+        .withArtifactId(artifactId("artifact123", "0.0.1"))
         .withHref(URI.create("http://www.foo.bar/home"));
 
     assertNotNull(kc.getAssetId());

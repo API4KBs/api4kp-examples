@@ -25,13 +25,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
 
 import edu.mayo.kmdp.SurrogateHelper;
+import edu.mayo.kmdp.id.helper.DatatypeHelper;
 import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
 import edu.mayo.kmdp.knowledgebase.assemblers.rdf.GraphBasedAssembler;
 import edu.mayo.kmdp.knowledgebase.constructors.DependencyBasedConstructor;
 import edu.mayo.kmdp.knowledgebase.flatteners.fhir.stu3.PlanDefinitionFlattener;
-import edu.mayo.kmdp.knowledgebase.v3.server.BindingApiInternal;
-import edu.mayo.kmdp.knowledgebase.v3.server.CompositionalApiInternal;
-import edu.mayo.kmdp.knowledgebase.v3.server.KnowledgeBaseApiInternal;
+import edu.mayo.kmdp.knowledgebase.v4.server.BindingApiInternal;
+import edu.mayo.kmdp.knowledgebase.v4.server.CompositionalApiInternal;
+import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import edu.mayo.kmdp.knowledgebase.weavers.fhir.stu3.DMNDefToPlanDefWeaver;
 import edu.mayo.kmdp.language.LanguageDeSerializer;
 import edu.mayo.kmdp.language.TransrepresentationExecutor;
@@ -43,8 +44,8 @@ import edu.mayo.kmdp.language.translators.dmn.v1_2.DmnToPlanDefTranslator;
 import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
 import edu.mayo.kmdp.terms.v4.server.TermsApiInternal;
-import edu.mayo.kmdp.tranx.v3.server.DeserializeApiInternal;
-import edu.mayo.kmdp.tranx.v3.server.TransxionApiInternal;
+import edu.mayo.kmdp.tranx.v4.server.DeserializeApiInternal;
+import edu.mayo.kmdp.tranx.v4.server.TransxionApiInternal;
 import edu.mayo.kmdp.util.FileUtil;
 import java.net.URI;
 import java.util.List;
@@ -52,6 +53,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.omg.spec.api4kp._1_0.AbstractCarrier;
 import org.omg.spec.api4kp._1_0.Answer;
+import org.omg.spec.api4kp._1_0.id.SemanticIdentifier;
 import org.omg.spec.api4kp._1_0.identifiers.ConceptIdentifier;
 import org.omg.spec.api4kp._1_0.identifiers.Pointer;
 import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
@@ -108,7 +110,7 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
     System.out.println("Asset repository initialized with content:");
     repo.listKnowledgeAssets()
         .ifPresent(ax -> ax.forEach(
-            ptr -> System.out.println(ptr.getName() + " - " + ptr.getEntityRef().getVersionId())));
+            ptr -> System.out.println(ptr.getName() + " - " + ptr.getVersionId())));
     System.out.println("\n\n");
   }
 
@@ -117,7 +119,7 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
   }
 
   protected String getSurrogateSource(String xml) {
-    return xml.substring(0,xml.indexOf('.')) + ".surrogate.xml";
+    return xml.substring(0, xml.indexOf('.')) + ".surrogate.xml";
   }
 
   protected String getDictionarySource() {
@@ -129,9 +131,9 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
         FileUtil.readBytes(
             CmmnToPlanDefIntegrationTestBase.class.getResourceAsStream(xml)))
         .map(bytes -> AbstractCarrier.of(bytes)
-            .withAssetId(surrogate.getAssetId())
+            .withAssetId(DatatypeHelper.toSemanticIdentifier(surrogate.getAssetId()))
             .withLevel(Encoded_Knowledge_Expression)
-            .withArtifactId(surrogate.getCarriers().get(0).getArtifactId())
+            .withArtifactId(DatatypeHelper.toSemanticIdentifier(surrogate.getCarriers().get(0).getArtifactId()))
             .withHref(
                 URI.create("file://" + xml.substring(xml.lastIndexOf('/') + 1).replaceAll(" ", "")))
             .withRepresentation(rep(SurrogateHelper.canonicalRepresentationOf(surrogate))));
@@ -139,8 +141,7 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
 
     KnowledgeCarrier kc = ans.get();
     if (kc.getArtifactId().getVersionId() == null) {
-      kc.getArtifactId()
-          .setVersionId(URI.create(kc.getArtifactId().getUri().toString() + "/versions/0.0.0"));
+      kc.setArtifactId(SemanticIdentifier.newId(URI.create(kc.getArtifactId().getResourceId().toString() + "/versions/0.0.0")));
     }
     return kc;
   }
@@ -180,17 +181,16 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
   }
 
 
-
   // TODO This is a placeholder until we can implement the TerminologyProvider
   private TermsApiInternal getMockTermServer() {
     return new TermsApiInternal() {
       @Override
-      public Answer<ConceptIdentifier> getTerm(UUID uuid, String s, String conceptId) {
+      public Answer<org.omg.spec.api4kp._1_0.identifiers.ConceptIdentifier> getTerm(UUID uuid, String s, String conceptId) {
         return Answer.of(new ConceptIdentifier().withConceptId(URI.create(conceptId)));
       }
 
       @Override
-      public Answer<List<ConceptIdentifier>> getTerms(UUID uuid, String s, String s1) {
+      public Answer<List<org.omg.spec.api4kp._1_0.identifiers.ConceptIdentifier>> getTerms(UUID uuid, String s, String s1) {
         return null;
       }
 
@@ -200,21 +200,27 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
       }
 
       @Override
+      public Answer<Void> isAncestor(UUID uuid, String s, String s1, String s2) {
+        return null;
+      }
+
+      @Override
       public Answer<Void> isMember(UUID uuid, String s, String s1) {
         return null;
       }
 
       @Override
-      public Answer<List<Pointer>> listTerminologies() {
+      public Answer<Void> listAncestors(UUID uuid, String s, String s1) {
+        return null;
+      }
+
+      @Override
+      public Answer<List<org.omg.spec.api4kp._1_0.identifiers.Pointer>> listTerminologies() {
         return Answer.of(
             singletonList(new Pointer().withHref(URI.create(getDictionaryURI())))
         );
       }
 
-      @Override
-      public Answer<Void> relatesTo(UUID uuid, String s, String s1, String s2) {
-        return null;
-      }
     };
   }
 
