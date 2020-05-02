@@ -31,9 +31,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.omg.spec.api4kp._1_0.Answer;
 import org.omg.spec.api4kp._1_0.services.CompositeKnowledgeCarrier;
-import org.omg.spec.api4kp._1_0.services.ExpressionCarrier;
 import org.omg.spec.api4kp._1_0.services.KnowledgeBase;
 import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._1_0.services.tranx.ModelMIMECoder;
 
 public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBase {
 
@@ -96,15 +96,13 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
 
         constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion())
             .flatMap(kc -> assembler.assembleCompositeArtifact(kc))
-            .flatMap(kc -> parser.lift(kc, Abstract_Knowledge_Expression))
+            .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression))
 
             .orElseGet(Assertions::fail);
 
     CompositeKnowledgeCarrier ckc = (CompositeKnowledgeCarrier) composite;
-    ckc.getComponent().forEach(comp -> {
-      System.out
-          .println("Component : " + comp.getRepresentation().getLanguage() + " " + comp.getLevel());
-    });
+    ckc.getComponent().forEach(comp ->
+        System.out.println("Component : " + comp.getRepresentation().getLanguage() + " " + comp.getLevel()));
   }
 
   @Test
@@ -112,7 +110,7 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
     KnowledgeCarrier parsedComposite =
         constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion())
             .flatMap(kc -> assembler.assembleCompositeArtifact(kc))
-            .flatMap(kc -> parser.lift(kc, Abstract_Knowledge_Expression))
+            .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression))
             .orElseGet(Assertions::fail);
 
     KnowledgeCarrier dictionary =
@@ -136,9 +134,8 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
 
     KnowledgeCarrier decisionModelComponent
         = ((CompositeKnowledgeCarrier) wovenComposite).getComponent().get(1);
-    parser.lower(decisionModelComponent, Concrete_Knowledge_Expression)
-        .map(ExpressionCarrier.class::cast)
-        .ifPresent(ec -> System.out.println(ec.getSerializedExpression()));
+    parser.applyLower(decisionModelComponent, Concrete_Knowledge_Expression)
+        .ifPresent(ec -> System.out.println(ec.getExpression()));
   }
 
 
@@ -147,7 +144,7 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
     KnowledgeCarrier parsedComposite =
         constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion())
             .flatMap(kc -> assembler.assembleCompositeArtifact(kc))
-            .flatMap(kc -> parser.lift(kc, Abstract_Knowledge_Expression))
+            .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression))
             .orElseGet(Assertions::fail);
 
     Answer<KnowledgeCarrier> wovenComposite =
@@ -163,14 +160,15 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
 
     KnowledgeCarrier planDefinitionComposite =
         wovenComposite.flatMap(ckc ->
-            translator.applyTransrepresentationInto(ckc, rep(FHIR_STU3, SNOMED_CT, PCV)))
+            translator.applyTransrepresent(
+                ckc,
+                ModelMIMECoder.encode(rep(FHIR_STU3, SNOMED_CT, PCV)),
+                null))
             .orElseGet(Assertions::fail);
 
     CompositeKnowledgeCarrier ckc = (CompositeKnowledgeCarrier) planDefinitionComposite;
-    ckc.getComponent().forEach(comp -> {
-      System.out
-          .println("Component : " + comp.getRepresentation().getLanguage() + " " + comp.getLevel());
-    });
+    ckc.getComponent().forEach(comp ->
+        System.out.println("Component : " + comp.getRepresentation().getLanguage() + " " + comp.getLevel()));
   }
 
   @Test
@@ -178,7 +176,7 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
     KnowledgeCarrier planDefinitionComposite =
         constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion())
             .flatMap(kc -> assembler.assembleCompositeArtifact(kc))
-            .flatMap(kc -> parser.lift(kc, Abstract_Knowledge_Expression))
+            .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression))
             .flatMap(parsedComposite ->
                 kbManager.initKnowledgeBase()
                     .flatMap(vid ->
@@ -192,7 +190,10 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
                         kbManager.getKnowledgeBase(vid.getUuid(), vid.getVersionTag()))
                     .map(KnowledgeBase::getManifestation))
             .flatMap(ckc ->
-                translator.applyTransrepresentationInto(ckc, rep(FHIR_STU3, SNOMED_CT, PCV)))
+                translator.applyTransrepresent(
+                    ckc,
+                    ModelMIMECoder.encode(rep(FHIR_STU3, SNOMED_CT, PCV)),
+                    null))
             .orElseGet(Assertions::fail);
 
     KnowledgeCarrier flatPlanDef = flattener

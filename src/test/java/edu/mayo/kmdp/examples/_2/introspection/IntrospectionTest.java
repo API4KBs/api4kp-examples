@@ -11,14 +11,15 @@ import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
 
 import edu.mayo.kmdp.examples.PlatformConfig;
 import edu.mayo.kmdp.inference.v4.server.IntrospectionApiInternal;
-import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
+import edu.mayo.kmdp.metadata.v2.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.tranx.v4.server.DeserializeApiInternal;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import javax.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.omg.spec.api4kp._1_0.AbstractCarrier;
-import org.omg.spec.api4kp._1_0.services.ExpressionCarrier;
+import org.omg.spec.api4kp._1_0.AbstractCarrier.Encodings;
 import org.omg.spec.api4kp._1_0.services.KPServer;
 import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,14 +48,14 @@ public class IntrospectionTest {
         of(is)
             .withAssetId(randomAssetId())
             .withArtifactId(randomArtifactId())
-            .withRepresentation(rep(DMN_1_2, XML_1_1)))
+            .withRepresentation(rep(DMN_1_2, XML_1_1, Charset.defaultCharset(), Encodings.DEFAULT)))
         .orElseGet(Assertions::fail);
 
     System.out.println("Created >> " + kc.getRepresentation().getLanguage());
     KnowledgeAsset surrogate = kc.as(KnowledgeAsset.class)
         .orElseGet(Assertions::fail);
 
-    parser.lower(kc, Concrete_Knowledge_Expression)
+    parser.applyLower(kc, Concrete_Knowledge_Expression)
         .flatOpt(AbstractCarrier::asString)
         .ifPresent(System.out::print);
 

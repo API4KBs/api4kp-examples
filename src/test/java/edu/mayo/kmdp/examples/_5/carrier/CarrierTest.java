@@ -4,18 +4,18 @@ import static edu.mayo.ontology.taxonomies.api4kp.parsinglevel.ParsingLevelSerie
 import static edu.mayo.ontology.taxonomies.krformat.SerializationFormatSeries.TXT;
 import static edu.mayo.ontology.taxonomies.krformat.SerializationFormatSeries.XML_1_1;
 import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.HTML;
-import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate;
+import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.of;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
 
 import edu.mayo.kmdp.examples.PlatformConfig;
-import edu.mayo.kmdp.id.helper.DatatypeHelper;
 import edu.mayo.kmdp.language.detectors.html.HTMLDetector;
 import edu.mayo.kmdp.language.parsers.dmn.v1_2.DMN12Parser;
-import edu.mayo.kmdp.language.parsers.surrogate.v1.SurrogateParser;
-import edu.mayo.kmdp.metadata.surrogate.ComputableKnowledgeArtifact;
-import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
+import edu.mayo.kmdp.language.parsers.surrogate.v2.Surrogate2Parser;
+import edu.mayo.kmdp.metadata.v2.surrogate.ComputableKnowledgeArtifact;
+import edu.mayo.kmdp.metadata.v2.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.metadata.v2.surrogate.SurrogateBuilder;
 import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
 import edu.mayo.kmdp.tranx.v4.server.DeserializeApiInternal;
@@ -45,7 +45,7 @@ public class CarrierTest {
 
   KnowledgeAssetRepositoryService assetRepo
       = KnowledgeAssetRepositoryService.selfContainedRepository(
-      Arrays.asList(new SurrogateParser(), new DMN12Parser()),
+      Arrays.asList(new Surrogate2Parser(), new DMN12Parser()),
       Collections.singletonList(new HTMLDetector()),
       Collections.emptyList(),
       Collections.emptyList()
@@ -62,13 +62,13 @@ public class CarrierTest {
 
     InputStream modelIs2 = CarrierTest.class.getResourceAsStream("/mock/Basic Decision Model.html");
     assetRepo.publish(surrogate,
-        readArtifact(DatatypeHelper.toSemanticIdentifier(surrogate.getAssetId()), modelIs2));
+        readArtifact(surrogate.getAssetId(), modelIs2));
   }
 
   private KnowledgeAsset readSurrogate(InputStream surrIs) {
-    return parser.lift(
+    return parser.applyLift(
         of(surrIs)
-            .withRepresentation(rep(Knowledge_Asset_Surrogate, XML_1_1)),
+            .withRepresentation(rep(Knowledge_Asset_Surrogate_2_0, XML_1_1)),
         Abstract_Knowledge_Expression)
         .flatOpt(kc -> kc.as(KnowledgeAsset.class))
         .orElseGet(Assertions::fail);
@@ -76,11 +76,10 @@ public class CarrierTest {
 
   private KnowledgeCarrier readArtifact(KnowledgeAsset surrogate, InputStream modelIs) {
     return AbstractCarrier.of(modelIs)
-        .withAssetId(DatatypeHelper.toSemanticIdentifier(surrogate.getAssetId()))
+        .withAssetId(surrogate.getAssetId())
         .withRepresentation(rep(
             ((ComputableKnowledgeArtifact) surrogate.getCarriers().get(0)).getRepresentation()))
-        .withArtifactId(
-            DatatypeHelper.toSemanticIdentifier(surrogate.getCarriers().get(0).getArtifactId()));
+        .withArtifactId(surrogate.getCarriers().get(0).getArtifactId());
   }
 
   private KnowledgeCarrier readArtifact(ResourceIdentifier assetId, InputStream modelIs) {
@@ -99,8 +98,8 @@ public class CarrierTest {
     ResourceIdentifier assetId = pointers.get(0);
     List<Pointer> artifacts
         = assetRepo
-        .getKnowledgeAssetCarriers(assetId.getUuid(), assetId.getVersionTag())
-        .orElse(null);
+        .listKnowledgeAssetCarriers(assetId.getUuid(), assetId.getVersionTag())
+        .orElseGet(Assertions::fail);
 
     System.out.println("Found Artifacts >> " + artifacts.size());
   }
@@ -114,7 +113,7 @@ public class CarrierTest {
     ResourceIdentifier assetId = pointers.get(0);
     KnowledgeCarrier kc = assetRepo
         .getCanonicalKnowledgeAssetCarrier(assetId.getUuid(), assetId.getVersionTag())
-        .orElse(null);
+        .orElseGet(Assertions::fail);
 
     System.out.println("Found Carrier w/ Lang >> " + kc.getRepresentation().getLanguage());
   }
@@ -123,13 +122,13 @@ public class CarrierTest {
   void testGetCarrierWithNegotiation() {
     List<Pointer> pointers = assetRepo.listKnowledgeAssets()
         .orElse(Collections.emptyList());
-    assertTrue(pointers.size() > 0);
+    assertFalse(pointers.isEmpty());
 
     ResourceIdentifier assetId = pointers.get(0);
     KnowledgeCarrier kc = assetRepo
         .getCanonicalKnowledgeAssetCarrier(assetId.getUuid(), assetId.getVersionTag(),
             "text/html")
-        .orElse(null);
+        .orElseGet(Assertions::fail);
 
     System.out.println("Found Carrier w/ Lang >> " + kc.getRepresentation().getLanguage());
   }

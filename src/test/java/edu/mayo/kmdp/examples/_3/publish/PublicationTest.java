@@ -2,13 +2,12 @@ package edu.mayo.kmdp.examples._3.publish;
 
 import static edu.mayo.ontology.taxonomies.api4kp.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
 import static edu.mayo.ontology.taxonomies.krformat.SerializationFormatSeries.XML_1_1;
-import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate;
+import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.of;
 import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
 
 import edu.mayo.kmdp.examples.PlatformConfig;
-import edu.mayo.kmdp.id.VersionedIdentifier;
-import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
+import edu.mayo.kmdp.metadata.v2.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
 import edu.mayo.kmdp.tranx.v4.server.DeserializeApiInternal;
 import edu.mayo.kmdp.util.Util;
@@ -17,8 +16,7 @@ import java.util.Collections;
 import javax.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.omg.spec.api4kp._1_0.AbstractCarrier;
-import org.omg.spec.api4kp._1_0.services.BinaryCarrier;
+import org.omg.spec.api4kp._1_0.id.ResourceIdentifier;
 import org.omg.spec.api4kp._1_0.services.KPServer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -41,29 +39,30 @@ public class PublicationTest {
     InputStream surrIs = PublicationTest.class
         .getResourceAsStream("/mock/Basic Decision Model.surrogate.xml");
 
-    KnowledgeAsset surrogate = parser.lift(
+    KnowledgeAsset surrogate = parser.applyLift(
         of(surrIs)
-            .withRepresentation(rep(Knowledge_Asset_Surrogate, XML_1_1)),
+            .withRepresentation(rep(Knowledge_Asset_Surrogate_2_0, XML_1_1)),
         Abstract_Knowledge_Expression)
         .flatOpt(kc -> kc.as(KnowledgeAsset.class))
         .orElseGet(Assertions::fail);
-    byte[] artifact = ((BinaryCarrier) AbstractCarrier.of(modelIs)).getEncodedExpression();
+    byte[] artifact = of(modelIs).asBinary()
+        .orElseGet(Assertions::fail);
 
-    VersionedIdentifier surrogateId = surrogate.getAssetId();
-    VersionedIdentifier artifactId = surrogate.getCarriers().get(0).getArtifactId();
+    ResourceIdentifier surrogateId = surrogate.getAssetId();
+    ResourceIdentifier artifactId = surrogate.getCarriers().get(0).getArtifactId();
 
     // publish metadata
-    assetRepo.setVersionedKnowledgeAsset(
+    assetRepo.setKnowledgeAssetVersion(
         Util.toUUID(surrogateId.getTag()),
-        surrogateId.getVersion(),
+        surrogateId.getVersionTag(),
         surrogate);
 
     // publish artifact
     assetRepo.setKnowledgeAssetCarrierVersion(
         Util.toUUID(surrogateId.getTag()),
-        surrogateId.getVersion(),
+        surrogateId.getVersionTag(),
         Util.toUUID(artifactId.getTag()),
-        artifactId.getVersion(),
+        artifactId.getVersionTag(),
         artifact);
 
     int n = assetRepo.listKnowledgeAssets()

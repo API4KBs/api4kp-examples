@@ -15,9 +15,10 @@ import edu.mayo.kmdp.kbase.inference.dmn.v1_1.DMNEngineProvider;
 import edu.mayo.kmdp.kbase.introspection.dmn.v1_1.DMN11MetadataIntrospector;
 import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
 import edu.mayo.kmdp.knowledgebase.v4.server.KnowledgeBaseApiInternal;
-import edu.mayo.kmdp.metadata.surrogate.KnowledgeAsset;
+import edu.mayo.kmdp.metadata.v2.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
 import edu.mayo.kmdp.util.FileUtil;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -27,6 +28,7 @@ import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.Type;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.omg.spec.api4kp._1_0.AbstractCarrier.Encodings;
 import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
 
 public class InferTest {
@@ -47,7 +49,7 @@ public class InferTest {
     KnowledgeCarrier artifactCarrier = of(modelData)
         .withAssetId(assetId(modelId, versionTag))
         .withArtifactId(artifactId(UUID.randomUUID().toString(), versionTag))
-        .withRepresentation(rep(DMN_1_1, XML_1_1));
+        .withRepresentation(rep(DMN_1_1, XML_1_1, Charset.defaultCharset(), Encodings.DEFAULT));
 
     // introspect
     KnowledgeAsset surrogate =
@@ -62,7 +64,7 @@ public class InferTest {
     publish();
     return assetRepo
         // get Metadata
-        .getVersionedKnowledgeAsset(modelId, versionTag)
+        .getKnowledgeAssetVersion(modelId, versionTag)
         // Use metadata to instantiate the appropriate engine
         // and deploy the KB constructed around the asset
         .flatOpt(asset -> new DMNEngineProvider(kbaseManager).apply(asset))

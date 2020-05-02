@@ -16,8 +16,8 @@ import edu.mayo.kmdp.tranx.v4.server.DetectApiInternal;
 import javax.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.omg.spec.api4kp._1_0.services.ExpressionCarrier;
 import org.omg.spec.api4kp._1_0.services.KPServer;
+import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._1_0.services.SyntacticRepresentation;
 import org.omg.spec.cmmn._20151109.model.TDefinitions;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,9 +42,11 @@ public class ParseTest {
         .orElseGet(Assertions::fail);
 
     TDefinitions cmmnModel =
-        parser.lift(of(data)
+        parser.applyLift(of(data)
             .withRepresentation(
-                detector.getDetectedRepresentation(of(data)).orElseGet(Assertions::fail)
+                detector.applyDetect(of(data))
+                    .map(KnowledgeCarrier::getRepresentation)
+                    .orElseGet(Assertions::fail)
             ), Abstract_Knowledge_Expression)
             .flatOpt(kc -> kc.as(TDefinitions.class))
             .orElseGet(Assertions::fail);
@@ -59,7 +61,7 @@ public class ParseTest {
         .orElseGet(Assertions::fail);
 
     org.omg.spec.dmn._20180521.model.TDefinitions dmnModel =
-        parser.lift(of(data)
+        parser.applyLift(of(data)
             .withRepresentation(
                 new SyntacticRepresentation()
                     .withLanguage(DMN_1_2)
@@ -79,10 +81,11 @@ public class ParseTest {
         .orElseGet(Assertions::fail);
 
     Document dox =
-        parser.lift(of(data)
+        parser.applyLift(
+            of(data)
                 .withRepresentation(rep(DMN_1_2, DMN_1_2_XML_Syntax, XML_1_1)),
             Parsed_Knowedge_Expression)
-            .flatOpt(kc -> kc.asParseTree(Document.class))
+            .flatOpt(kc -> kc.as(Document.class))
             .orElseGet(Assertions::fail);
 
     System.out.println("Parsed Model >> " + dox.getClass());
@@ -96,11 +99,10 @@ public class ParseTest {
         .orElseGet(Assertions::fail);
 
     Object dmnStr =
-        parser.lift(of(data)
+        parser.applyLift(of(data)
                 .withRepresentation(rep(DMN_1_2, DMN_1_2_XML_Syntax, XML_1_1)),
             Concrete_Knowledge_Expression)
-            .map(ExpressionCarrier.class::cast)
-            .map(ExpressionCarrier::getSerializedExpression)
+            .map(KnowledgeCarrier::getExpression)
             .orElseGet(Assertions::fail);
 
     System.out.println("Parsed Model >> " + dmnStr.getClass());
