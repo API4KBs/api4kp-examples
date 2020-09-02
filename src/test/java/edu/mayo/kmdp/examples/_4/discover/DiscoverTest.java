@@ -1,16 +1,14 @@
 package edu.mayo.kmdp.examples._4.discover;
 
-import static edu.mayo.ontology.taxonomies.api4kp.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
-import static edu.mayo.ontology.taxonomies.krformat.SerializationFormatSeries.XML_1_1;
-import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.omg.spec.api4kp._1_0.AbstractCarrier.of;
-import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
+import static org.omg.spec.api4kp._20200801.AbstractCarrier.of;
+import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
+import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationFormatSeries.XML_1_1;
+import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.Knowledge_Asset_Surrogate_2_0;
+import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
 
 import edu.mayo.kmdp.examples.PlatformConfig;
-import edu.mayo.kmdp.metadata.v2.surrogate.KnowledgeAsset;
 import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
-import edu.mayo.kmdp.tranx.v4.server.DeserializeApiInternal;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
@@ -18,10 +16,11 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.omg.spec.api4kp._1_0.AbstractCarrier;
-import org.omg.spec.api4kp._1_0.id.Pointer;
-import org.omg.spec.api4kp._1_0.services.KPServer;
-import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.DeserializeApiInternal;
+import org.omg.spec.api4kp._20200801.id.Pointer;
+import org.omg.spec.api4kp._20200801.services.KPServer;
+import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -57,7 +56,7 @@ public class DiscoverTest {
         Abstract_Knowledge_Expression)
         .flatOpt(kc -> kc.as(KnowledgeAsset.class))
         .orElseGet(Assertions::fail);
-    KnowledgeCarrier artifact = AbstractCarrier.of(modelIs)
+    KnowledgeCarrier artifact = of(modelIs)
         .withAssetId(surrogate.getAssetId())
         .withArtifactId(surrogate.getCarriers().get(0).getArtifactId());
 
@@ -78,7 +77,6 @@ public class DiscoverTest {
     List<Pointer> pointers = assetRepo.listKnowledgeAssets()
         .orElse(Collections.emptyList());
     assertFalse(pointers.isEmpty());
-
     Pointer vid = pointers.get(0);
     KnowledgeAsset asset
         = assetRepo.getKnowledgeAsset(vid.getUuid(), vid.getVersionTag())

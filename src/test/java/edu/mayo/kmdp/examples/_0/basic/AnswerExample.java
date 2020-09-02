@@ -7,10 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Test;
-import org.omg.spec.api4kp._1_0.Answer;
+import org.omg.spec.api4kp._20200801.Answer;
 
 /**
- * Answer ({@link org.omg.spec.api4kp._1_0.Answer}) is the monad-style wrapper that combines famous
+ * Answer ({@link org.omg.spec.api4kp._20200801.Answer}) is the monad-style wrapper that combines famous
  * monads such as Optional/Maybe, Try (for error handling), Writer (for explanations) and Composite
  */
 public class AnswerExample {

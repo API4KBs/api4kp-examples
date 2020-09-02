@@ -1,24 +1,27 @@
 package edu.mayo.kmdp.examples._1.language;
 
 import static edu.mayo.kmdp.util.FileUtil.readBytes;
-import static edu.mayo.ontology.taxonomies.api4kp.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
-import static edu.mayo.ontology.taxonomies.api4kp.parsinglevel.ParsingLevelSeries.Concrete_Knowledge_Expression;
-import static edu.mayo.ontology.taxonomies.api4kp.parsinglevel.ParsingLevelSeries.Parsed_Knowedge_Expression;
-import static edu.mayo.ontology.taxonomies.krformat.SerializationFormatSeries.XML_1_1;
-import static edu.mayo.ontology.taxonomies.krlanguage.KnowledgeRepresentationLanguageSeries.DMN_1_2;
-import static edu.mayo.ontology.taxonomies.krserialization.KnowledgeRepresentationLanguageSerializationSeries.DMN_1_2_XML_Syntax;
-import static org.omg.spec.api4kp._1_0.AbstractCarrier.of;
-import static org.omg.spec.api4kp._1_0.AbstractCarrier.rep;
+import static java.nio.charset.Charset.defaultCharset;
+import static org.omg.spec.api4kp._20200801.AbstractCarrier.of;
+import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
+import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationFormatSeries.XML_1_1;
+import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.DMN_1_2;
+import static org.omg.spec.api4kp._20200801.taxonomy.krserialization.KnowledgeRepresentationLanguageSerializationSeries.DMN_1_2_XML_Syntax;
+import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
+import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Concrete_Knowledge_Expression;
+import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Serialized_Knowledge_Expression;
 
 import edu.mayo.kmdp.examples.PlatformConfig;
-import edu.mayo.kmdp.tranx.v4.server.DeserializeApiInternal;
-import edu.mayo.kmdp.tranx.v4.server.DetectApiInternal;
+import java.nio.charset.Charset;
 import javax.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.omg.spec.api4kp._1_0.services.KPServer;
-import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
-import org.omg.spec.api4kp._1_0.services.SyntacticRepresentation;
+import org.omg.spec.api4kp._20200801.AbstractCarrier.Encodings;
+import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.DeserializeApiInternal;
+import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.DetectApiInternal;
+import org.omg.spec.api4kp._20200801.services.KPServer;
+import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.services.SyntacticRepresentation;
 import org.omg.spec.cmmn._20151109.model.TDefinitions;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -84,7 +87,7 @@ public class ParseTest {
         parser.applyLift(
             of(data)
                 .withRepresentation(rep(DMN_1_2, DMN_1_2_XML_Syntax, XML_1_1)),
-            Parsed_Knowedge_Expression)
+            Concrete_Knowledge_Expression)
             .flatOpt(kc -> kc.as(Document.class))
             .orElseGet(Assertions::fail);
 
@@ -100,8 +103,8 @@ public class ParseTest {
 
     Object dmnStr =
         parser.applyLift(of(data)
-                .withRepresentation(rep(DMN_1_2, DMN_1_2_XML_Syntax, XML_1_1)),
-            Concrete_Knowledge_Expression)
+                .withRepresentation(rep(DMN_1_2, DMN_1_2_XML_Syntax, XML_1_1, defaultCharset(), Encodings.DEFAULT)),
+            Serialized_Knowledge_Expression)
             .map(KnowledgeCarrier::getExpression)
             .orElseGet(Assertions::fail);
 

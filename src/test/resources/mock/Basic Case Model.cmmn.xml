@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <semantic:definitions xmlns:semantic="http://www.omg.org/spec/CMMN/20151109/MODEL"
   xmlns="https://clinicalknowledgemanagement.mayo.edu/artifacts/16086bb8-c1fc-49b0-800b-c9b995dc5ed5"
-  xmlns:ann="http://kmdp.mayo.edu/metadata/annotations"
-  xmlns:assets="https://clinicalknowledgemanagement.mayo.edu/assets"
   xmlns:cmmndi="http://www.omg.org/spec/CMMN/20151109/CMMNDI"
   xmlns:dc="http://www.omg.org/spec/CMMN/20151109/DC"
   xmlns:di="http://www.omg.org/spec/CMMN/20151109/DI"
-  xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/"
   xmlns:ns1="https://clinicalknowledgemanagement.mayo.edu/artifacts/ee0c768a-a0d4-4052-a6ea-fc0a3889b356"
-  xmlns:rss="http://purl.org/rss/2.0/"
-  xmlns:surr="http://kmdp.mayo.edu/metadata/surrogate"
+  xmlns:surr="https://www.omg.org/spec/API4KP/20200801/surrogate"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   expressionLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/"
   id="_16086bb8-c1fc-49b0-800b-c9b995dc5ed5"
   name="Basic Case Model"
   targetNamespace="https://clinicalknowledgemanagement.mayo.edu/artifacts/16086bb8-c1fc-49b0-800b-c9b995dc5ed5"
-  xsi:schemaLocation="http://kmdp.mayo.edu/metadata/surrogate xsd/metadata/surrogate/surrogate.xsd http://kmdp.mayo.edu/metadata/annotations xsd/metadata/annotations/annotations.xsd CMMN_1_1 http://www.omg.org/spec/CMMN/20151109/MODEL">
+  xsi:schemaLocation="https://www.omg.org/spec/API4KP/20200801/surrogate xsd/API4KP/surrogate/surrogate.xsd">
   <semantic:caseFileItemDefinition
     definitionType="http://www.omg.org/spec/CMMN/DefinitionType/Unspecified"
     id="_6894ff5f-130a-46a1-bcc4-5e915acd7c9b"
@@ -27,36 +23,69 @@
   <semantic:caseFileItemDefinition id="_f6e3c065-be28-4e35-ac1f-b5fae6a2ddb5"
     name="Case File Item Decision"/>
   <semantic:case id="Case_c5b0fddc-013d-4dfb-be05-1f83f22767c1">
-    <semantic:extensionElements>
-      <ann:annotation xmlns:ann="http://kmdp.mayo.edu/metadata/v2/surrogate/annotations"
-        xmlns:id="http://www.omg.org/spec/API4KP/1.0/id">
-        <ann:ref
-          name="KnowledgeAssetTypes - 20190801 - Cognitive Process Modelin 'KnowledgeAssetTypes - 20190801'"
-          namespaceUri="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType#"
-          referentId="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType/20190801/"
-          resourceId="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType#e12dcd92-f8de-3115-b8ca-4480cfc44d77"
-          tag="d664416f-ba40-4259-a682-f67e83b28186"/>
-      </ann:annotation>
-    </semantic:extensionElements>
     <semantic:caseFileModel>
       <semantic:caseFileItem definitionRef="_f6e3c065-be28-4e35-ac1f-b5fae6a2ddb5"
         id="_51629986-fc6c-4759-9dd1-46eb369d3612"
-        name="Case File Item Decision"/>
+        name="Case File Item Decision">
+        <semantic:extensionElements>
+          <surr:annotation
+          >
+            <surr:ref name="PropositionalConcepts - 20190801 - Prior Management of HFrEF"
+              namespaceUri="https://ontology.mayo.edu/taxonomies/clinicalsituations#"
+              referentId="https://ontology.mayo.edu/taxonomies/propositionalconcepts/20190801/"
+              resourceId="https://ontology.mayo.edu/taxonomies/clinicalsituations#27a66bf7-9951-3daa-ab11-b47049ede2ff"
+              tag="_48844bd1-ddb4-4659-8ede-58f612296446"/>
+          </surr:annotation>
+        </semantic:extensionElements>
+      </semantic:caseFileItem>
       <semantic:caseFileItem definitionRef="_6894ff5f-130a-46a1-bcc4-5e915acd7c9b"
         id="_732407a2-b292-4b8a-bd44-1d04f6ba8e7f"
-        name="Case File Item Data"/>
+        name="Case File Item Data">
+        <semantic:extensionElements>
+          <surr:annotation
+          >
+            <surr:ref
+              name="Atrial Fibrillation - Cardioversion Indicated - Most Recent Creatinine Clearance"
+              namespaceUri="https://clinicalknowledgemanagement.mayo.edu/artifacts/527bed4a-a36f-4424-a752-7a9675fc976c#"
+              referentId="https://clinicalknowledgemanagement.mayo.edu/artifacts/527bed4a-a36f-4424-a752-7a9675fc976c"
+              resourceId="https://clinicalknowledgemanagement.mayo.edu/artifacts/527bed4a-a36f-4424-a752-7a9675fc976c#268b2d96-dc31-4ad5-84a2-f272f5b70f58"
+              tag="fe283334-808e-4e4e-b1e9-1a9a939a943d"/>
+          </surr:annotation>
+        </semantic:extensionElements>
+      </semantic:caseFileItem>
       <semantic:caseFileItem definitionRef="_00f6dab7-b939-4816-868e-0a64d6ee4994"
         id="_e3b0b96f-741f-4852-98a9-b332c24e4f18"
-        name="Knowledge - ICD Indications in HCM"/>
+        name="Knowledge - ICD Indications in HCM">
+        <semantic:extensionElements/>
+      </semantic:caseFileItem>
     </semantic:caseFileModel>
     <semantic:casePlanModel id="_c5b0fddc-013d-4dfb-be05-1f83f22767c1">
+      <semantic:extensionElements>
+        <surr:annotation
+        >
+          <surr:ref
+            name="KnowledgeAssetTypes - 20190801 - Cognitive Process Modelin 'KnowledgeAssetTypes - 20190801'"
+            namespaceUri="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType#"
+            referentId="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType/20190801/"
+            resourceId="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType#e12dcd92-f8de-3115-b8ca-4480cfc44d77"
+            tag="d664416f-ba40-4259-a682-f67e83b28186"/>
+        </surr:annotation>
+      </semantic:extensionElements>
       <semantic:planItem definitionRef="PID__0b13f9ff-726e-4a7e-b42f-f2497ca47c39"
         id="_0b13f9ff-726e-4a7e-b42f-f2497ca47c39"/>
       <semantic:planItem definitionRef="PID__4ad6c909-d593-4616-9bf6-af18752fbbfc"
         id="_4ad6c909-d593-4616-9bf6-af18752fbbfc"/>
+      <semantic:planItem definitionRef="PID__a1e98dfe-b003-42a4-a456-6d5d813ad451"
+        id="_a1e98dfe-b003-42a4-a456-6d5d813ad451"/>
+      <semantic:planItem definitionRef="PID__5cc62d37-8e56-44a8-be1b-b864c2d18bcd"
+        id="_5cc62d37-8e56-44a8-be1b-b864c2d18bcd"/>
+      <semantic:planItem definitionRef="PID__6e50e1db-b80a-40fc-b5eb-516ef1f547a8"
+        id="_6e50e1db-b80a-40fc-b5eb-516ef1f547a8"/>
+      <semantic:planItem definitionRef="PID__02b52dc0-41c6-4edc-88c1-cccd6f1e8fd9"
+        id="_02b52dc0-41c6-4edc-88c1-cccd6f1e8fd9"/>
       <semantic:decisionTask decisionRef="_7dfe244c35cffbd4efa07be80b4df2be"
         id="PID__0b13f9ff-726e-4a7e-b42f-f2497ca47c39"
-        name="Make Basic Decision">
+        name="Choose Management of Condition">
         <semantic:extensionElements/>
         <semantic:defaultControl>
           <semantic:manualActivationRule/>
@@ -64,25 +93,44 @@
       </semantic:decisionTask>
       <semantic:humanTask id="PID__4ad6c909-d593-4616-9bf6-af18752fbbfc"
         isBlocking="false"
-        name="Task with Task Concept">
+        name="Educate Patient on Condition">
         <semantic:extensionElements>
-          <ann:annotation xmlns:ann="http://kmdp.mayo.edu/metadata/v2/surrogate/annotations"
-            xmlns:id="http://www.omg.org/spec/API4KP/1.0/id">
-            <ann:rel name="captures"
+           <surr:annotation
+           >
+            <surr:rel name="captures"
               namespaceUri="https://www.omg.org/spec/API4KP/api4kp/captures"
               resourceId="https://www.omg.org/spec/API4KP/api4kp/captures"
               tag="captures"/>
-            <ann:ref name="ClinicalTasks - 20190801 - Discuss Recommendations for HFrEF"
+            <surr:ref name="ClinicalTasks - ClinicalTasks - Educate"
               namespaceUri="https://ontology.mayo.edu/taxonomies/ClinicalTasks#"
-              referentId="https://ontology.mayo.edu/taxonomies/ClinicalTasks/20190801/"
-              resourceId="https://ontology.mayo.edu/taxonomies/ClinicalTasks#0125bd33-f63d-3376-8203-c81a975b74e2"
-              tag="_25983d88-3393-4a09-9774-b2ec1f834cb8"/>
-          </ann:annotation>
+              referentId="https://ontology.mayo.edu/taxonomies/ClinicalTasks"
+              resourceId="https://ontology.mayo.edu/taxonomies/ClinicalTasks#14e929a2-a22a-3107-8a38-692107b0f7c5"
+              tag="_5e3268e7-06aa-4cb6-ae65-11a2f2ead9ea"/>
+          </surr:annotation>
         </semantic:extensionElements>
         <semantic:defaultControl>
           <semantic:manualActivationRule/>
         </semantic:defaultControl>
       </semantic:humanTask>
+      <semantic:task id="PID__a1e98dfe-b003-42a4-a456-6d5d813ad451"
+        name="Review Prior Management of Condition">
+        <semantic:defaultControl>
+          <semantic:manualActivationRule/>
+        </semantic:defaultControl>
+      </semantic:task>
+      <semantic:task id="PID__5cc62d37-8e56-44a8-be1b-b864c2d18bcd"
+        name="Review Current Status of Condition">
+        <semantic:defaultControl>
+          <semantic:manualActivationRule/>
+        </semantic:defaultControl>
+      </semantic:task>
+      <semantic:task id="PID__6e50e1db-b80a-40fc-b5eb-516ef1f547a8"
+        name="Review History Pertinent to Condition">
+        <semantic:defaultControl>
+          <semantic:manualActivationRule/>
+        </semantic:defaultControl>
+      </semantic:task>
+      <semantic:stage id="PID__02b52dc0-41c6-4edc-88c1-cccd6f1e8fd9"/>
     </semantic:casePlanModel>
   </semantic:case>
   <semantic:decision externalRef="ns1:_4a4a026a-5de7-4b57-aad9-e0ce1f8a9719"
@@ -118,7 +166,7 @@
     <cmmndi:CMMNDiagram cmmnElementRef="_f2bbf1dd-6ef6-47e2-ba8f-359b519d228b"
       id="_bfeba959-dfeb-4edb-a8db-9dd2b50e5703"
       name="Page 1">
-      <cmmndi:Size height="1050" width="1628.1955028294874"/>
+      <cmmndi:Size height="1063.5" width="1880.5624930212896"/>
       <cmmndi:CMMNShape cmmnElementRef="_c5b0fddc-013d-4dfb-be05-1f83f22767c1"
         id="_f2bbf1dd-6ef6-47e2-ba8f-359b519d228b">
         <cmmndi:CMMNStyle>
@@ -126,7 +174,10 @@
           <cmmndi:StrokeColor blue="0" green="0" red="0"/>
           <cmmndi:FontColor blue="0" green="0" red="0"/>
         </cmmndi:CMMNStyle>
-        <dc:Bounds height="600" width="800" x="435.19550282948745" y="130"/>
+        <dc:Bounds height="613.5"
+          width="1052.3669901918022"
+          x="435.19550282948745"
+          y="130"/>
         <cmmndi:CMMNLabel/>
       </cmmndi:CMMNShape>
       <cmmndi:CMMNShape cmmnElementRef="_0b13f9ff-726e-4a7e-b42f-f2497ca47c39"
@@ -138,10 +189,10 @@
         </cmmndi:CMMNStyle>
         <dc:Bounds height="76" width="96" x="891.1955028294874" y="292"/>
         <cmmndi:CMMNLabel>
-          <dc:Bounds height="26.015625"
+          <dc:Bounds height="40.671875"
             width="68"
             x="905.1955028294874"
-            y="316.9921875"/>
+            y="309.6640625"/>
         </cmmndi:CMMNLabel>
       </cmmndi:CMMNShape>
       <cmmndi:CMMNShape cmmnElementRef="_4ad6c909-d593-4616-9bf6-af18752fbbfc"
@@ -156,10 +207,10 @@
           x="891.1955028294874"
           y="437.4235215889186"/>
         <cmmndi:CMMNLabel>
-          <dc:Bounds height="26.015625"
+          <dc:Bounds height="40.671875"
             width="68"
             x="905.1955028294874"
-            y="462.4157090889186"/>
+            y="455.0875840889186"/>
         </cmmndi:CMMNLabel>
       </cmmndi:CMMNShape>
       <cmmndi:CMMNShape cmmnElementRef="_51629986-fc6c-4759-9dd1-46eb369d3612"
@@ -219,7 +270,10 @@
         </cmmndi:CMMNStyle>
         <dc:Bounds height="107" width="100" x="677.1955028294874" y="569"/>
         <cmmndi:CMMNLabel>
-          <dc:Bounds height="96.015625" width="94" x="682.1955028294874" y="577"/>
+          <dc:Bounds height="96.015625"
+            width="94"
+            x="635.1955028294874"
+            y="528.9921875"/>
         </cmmndi:CMMNLabel>
       </cmmndi:CMMNShape>
       <cmmndi:CMMNShape cmmnElementRef="_10eb8352-ab24-4d4c-abd8-a33ab5e1d00d"
@@ -231,8 +285,75 @@
         </cmmndi:CMMNStyle>
         <dc:Bounds height="135" width="100" x="534.6041666666667" y="249"/>
         <cmmndi:CMMNLabel>
-          <dc:Bounds height="124.015625" width="94" x="539.6041666666667" y="257"/>
+          <dc:Bounds height="124.015625"
+            width="94"
+            x="492.60416666666674"
+            y="194.9921875"/>
         </cmmndi:CMMNLabel>
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape cmmnElementRef="_a1e98dfe-b003-42a4-a456-6d5d813ad451"
+        id="_d3a9bb49-cf77-4e9e-98c9-5fac51472a5d">
+        <cmmndi:CMMNStyle>
+          <cmmndi:FillColor blue="255" green="255" red="255"/>
+          <cmmndi:StrokeColor blue="0" green="0" red="0"/>
+          <cmmndi:FontColor blue="0" green="0" red="0"/>
+        </cmmndi:CMMNStyle>
+        <dc:Bounds height="75.99999999999997"
+          width="96"
+          x="1189.0624908357859"
+          y="181.44791408241898"/>
+        <cmmndi:CMMNLabel>
+          <dc:Bounds height="40.671875"
+            width="89"
+            x="1193.5624908357859"
+            y="199.11197658241898"/>
+        </cmmndi:CMMNLabel>
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape cmmnElementRef="_5cc62d37-8e56-44a8-be1b-b864c2d18bcd"
+        id="_624f94cd-adfa-4f30-94b9-f9f14ee6756d">
+        <cmmndi:CMMNStyle>
+          <cmmndi:FillColor blue="255" green="255" red="255"/>
+          <cmmndi:StrokeColor blue="0" green="0" red="0"/>
+          <cmmndi:FontColor blue="0" green="0" red="0"/>
+        </cmmndi:CMMNStyle>
+        <dc:Bounds height="76" width="96" x="1189.0624908357859" y="292"/>
+        <cmmndi:CMMNLabel>
+          <dc:Bounds height="40.671875"
+            width="89"
+            x="1193.5624908357859"
+            y="309.6640625"/>
+        </cmmndi:CMMNLabel>
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape cmmnElementRef="_6e50e1db-b80a-40fc-b5eb-516ef1f547a8"
+        id="_544d1faf-abe3-467d-8ed9-a0fbd25594ee">
+        <cmmndi:CMMNStyle>
+          <cmmndi:FillColor blue="255" green="255" red="255"/>
+          <cmmndi:StrokeColor blue="0" green="0" red="0"/>
+          <cmmndi:FontColor blue="0" green="0" red="0"/>
+        </cmmndi:CMMNStyle>
+        <dc:Bounds height="76"
+          width="96"
+          x="1189.0624908357859"
+          y="437.42352158891856"/>
+        <cmmndi:CMMNLabel>
+          <dc:Bounds height="40.671875"
+            width="89"
+            x="1193.5624908357859"
+            y="455.08758408891856"/>
+        </cmmndi:CMMNLabel>
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape cmmnElementRef="_02b52dc0-41c6-4edc-88c1-cccd6f1e8fd9"
+        id="_8bf0cc19-35fc-4973-857e-de4e776790de">
+        <cmmndi:CMMNStyle>
+          <cmmndi:FillColor blue="255" green="255" red="255"/>
+          <cmmndi:StrokeColor blue="0" green="0" red="0"/>
+          <cmmndi:FontColor blue="0" green="0" red="0"/>
+        </cmmndi:CMMNStyle>
+        <dc:Bounds height="450"
+          width="210"
+          x="1132.062490835786"
+          y="163.49999999999991"/>
+        <cmmndi:CMMNLabel/>
       </cmmndi:CMMNShape>
       <cmmndi:CMMNEdge cmmnElementRef="_122f94c2-88dd-454c-a5ea-db0b73ef832f"
         id="_9559d2f8-32d1-4697-947b-79bec8dc4a32">

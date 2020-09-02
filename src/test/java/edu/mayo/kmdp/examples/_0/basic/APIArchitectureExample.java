@@ -2,13 +2,13 @@ package edu.mayo.kmdp.examples._0.basic;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import edu.mayo.kmdp.repository.asset.v4.KnowledgeAssetCatalogApi;
-import edu.mayo.kmdp.repository.asset.v4.client.ApiClientFactory;
-import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetCatalogApiDelegate;
-import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetCatalogApiInternal;
-import edu.mayo.kmdp.repository.asset.v4.server.KnowledgeAssetCatalogApiInternalAdapter;
-import org.omg.spec.api4kp._1_0.Answer;
-import org.omg.spec.api4kp._1_0.services.repository.KnowledgeAssetCatalog;
+import org.omg.spec.api4kp._20200801.Answer;
+import org.omg.spec.api4kp._20200801.api.repository.asset.v4.KnowledgeAssetCatalogApi;
+import org.omg.spec.api4kp._20200801.api.repository.asset.v4.client.ApiClientFactory;
+import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetCatalogApiDelegate;
+import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetCatalogApiInternal;
+import org.omg.spec.api4kp._20200801.api.repository.asset.v4.server.KnowledgeAssetCatalogApiInternalAdapter;
+import org.omg.spec.api4kp._20200801.services.repository.KnowledgeAssetCatalog;
 
 /**
  * This example uses the KnowledgeAssetRepositoryAPI to demonstrate how to implement a server, and
@@ -25,9 +25,7 @@ public class APIArchitectureExample {
   public void testLocalClientInitialization() {
 
     // The client instantiates the service provider directly
-    // FIXME: using the 'internal', server-oriented interface - should use KnowledgeAssetCatalogApi instead
-    // FIXME:   KnowledgeAssetCatalogApi server = KnowledgeAssetCatalogApi.newInstance(newServerImplementation());
-    KnowledgeAssetCatalogApiInternal server = newServerImplementation();
+    KnowledgeAssetCatalogApi server = KnowledgeAssetCatalogApi.newInstance(newServerImplementation());
     assertTrue(server.getKnowledgeAssetCatalog().isSuccess());
 
     // The client can also use a delegate

@@ -3,16 +3,16 @@ package edu.mayo.kmdp.examples._7.inference;
 
 import static edu.mayo.kmdp.id.helper.DatatypeHelper.resolveTerm;
 
-import edu.mayo.kmdp.id.Identifier;
-import edu.mayo.kmdp.id.Term;
 import edu.mayo.kmdp.util.Util;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.omg.spec.api4kp._20200801.id.Term;
 
 public enum MockVocab implements Term {
 
@@ -36,7 +36,7 @@ public enum MockVocab implements Term {
 
 
   public static final Map<UUID, MockVocab> INDEX = Arrays.stream(MockVocab.values())
-      .collect(Collectors.toConcurrentMap(Term::getConceptUUID, Function.identity()));
+      .collect(Collectors.toConcurrentMap(Term::getUuid, Function.identity()));
 
   private UUID uuid;
   private String tag;
@@ -70,28 +70,42 @@ public enum MockVocab implements Term {
 
 
   @Override
-  public String getLabel() {
-    return label;
-  }
-
-  @Override
   public String getTag() {
     return tag;
   }
 
   @Override
-  public URI getRef() {
-    return null;
+  public String getName() {
+    return label;
   }
 
   @Override
-  public URI getConceptId() {
-    return null;
+  public Date getEstablishedOn() {
+    return new Date();
   }
 
   @Override
-  public Identifier getNamespace() {
-    return null;
+  public URI getReferentId() {
+    return URI.create("uri:urn:" + tag);
   }
 
+  @Override
+  public URI getResourceId() {
+    return URI.create("urn:uuid:" + uuid.toString());
+  }
+
+  @Override
+  public UUID getUuid() {
+    return uuid;
+  }
+
+  @Override
+  public URI getNamespaceUri() {
+    return URI.create("urn:uuid");
+  }
+
+  @Override
+  public String getVersionTag() {
+    return "0.0.0";
+  }
 }

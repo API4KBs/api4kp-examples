@@ -1,16 +1,17 @@
 package edu.mayo.kmdp.examples._1.language;
 
-import static org.omg.spec.api4kp._1_0.AbstractCarrier.of;
+
+import static org.omg.spec.api4kp._20200801.AbstractCarrier.of;
 
 import edu.mayo.kmdp.examples.PlatformConfig;
-import edu.mayo.kmdp.tranx.v4.server.DetectApiInternal;
 import java.io.InputStream;
 import javax.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.omg.spec.api4kp._1_0.services.KPServer;
-import org.omg.spec.api4kp._1_0.services.KnowledgeCarrier;
-import org.omg.spec.api4kp._1_0.services.SyntacticRepresentation;
+import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.DetectApiInternal;
+import org.omg.spec.api4kp._20200801.services.KPServer;
+import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
+import org.omg.spec.api4kp._20200801.services.SyntacticRepresentation;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
