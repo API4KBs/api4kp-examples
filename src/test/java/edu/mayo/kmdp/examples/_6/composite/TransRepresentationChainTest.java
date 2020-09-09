@@ -20,6 +20,7 @@ import static org.omg.spec.api4kp._20200801.taxonomy.lexicon.LexiconSeries.SNOME
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Concrete_Knowledge_Expression;
 
+import edu.mayo.kmdp.knowledgebase.weavers.fhir.stu3.DMNDefToPlanDefWeaver;
 import edu.mayo.kmdp.util.JenaUtil;
 import edu.mayo.kmdp.util.fhir.fhir3.FHIR3JsonUtil;
 import java.util.Arrays;
@@ -31,7 +32,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
-import org.omg.spec.api4kp._20200801.services.KnowledgeBase;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.transrepresentation.ModelMIMECoder;
 
@@ -121,15 +121,14 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
         kbManager.initKnowledgeBase()
             // Add composite to KB
             .flatMap(vid ->
-                kbManager.populateKnowledgeBase(UUID.fromString(vid.getTag()), vid.getVersionTag(),
+                kbManager.populateKnowledgeBase(vid.getUuid(), vid.getVersionTag(),
                     parsedComposite))
             // IoC : the weaver will retrieve the KB from the manager and apply the dictionary to the KB content
             .flatMap(vid ->
-                weaver.weave(vid.getUuid(), vid.getVersionTag(), dictionary))
+                kbManager.weave(vid.getUuid(), vid.getVersionTag(), dictionary))
             // Get the result
             .flatMap(vid ->
-                kbManager.getKnowledgeBase(vid.getUuid(), vid.getVersionTag()))
-            .map(KnowledgeBase::getManifestation)
+                kbManager.getKnowledgeBaseManifestation(vid.getUuid(), vid.getVersionTag()))
             .orElseGet(Assertions::fail);
 
     KnowledgeCarrier decisionModelComponent
@@ -153,10 +152,9 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
                 kbManager.populateKnowledgeBase(vid.getUuid(), vid.getVersionTag(),
                     parsedComposite))
             .flatMap(vid ->
-                weaver.weave(vid.getUuid(), vid.getVersionTag(), loadDictionary()))
+                kbManager.weave(vid.getUuid(), vid.getVersionTag(), loadDictionary()))
             .flatMap(vid ->
-                kbManager.getKnowledgeBase(vid.getUuid(), vid.getVersionTag()))
-            .map(KnowledgeBase::getManifestation);
+                kbManager.getKnowledgeBaseManifestation(vid.getUuid(), vid.getVersionTag()));
 
     KnowledgeCarrier planDefinitionComposite =
         wovenComposite.flatMap(ckc ->
@@ -178,17 +176,11 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
             .flatMap(kc -> assembler.assembleCompositeArtifact(kc))
             .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression))
             .flatMap(parsedComposite ->
-                kbManager.initKnowledgeBase()
+                kbManager.initKnowledgeBase(parsedComposite)
                     .flatMap(vid ->
-                        kbManager
-                            .populateKnowledgeBase(vid.getUuid(), vid.getVersionTag(),
-                                parsedComposite))
+                        kbManager.namedWeave(vid.getUuid(), vid.getVersionTag(), DMNDefToPlanDefWeaver.id, loadDictionary()))
                     .flatMap(vid ->
-                        weaver.weave(vid.getUuid(), vid.getVersionTag(),
-                            loadDictionary()))
-                    .flatMap(vid ->
-                        kbManager.getKnowledgeBase(vid.getUuid(), vid.getVersionTag()))
-                    .map(KnowledgeBase::getManifestation))
+                        kbManager.getKnowledgeBaseManifestation(vid.getUuid(), vid.getVersionTag())))
             .flatMap(ckc ->
                 translator.applyTransrepresent(
                     ckc,

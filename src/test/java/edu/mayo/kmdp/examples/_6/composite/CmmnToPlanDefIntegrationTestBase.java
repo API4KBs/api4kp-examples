@@ -47,9 +47,10 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.omg.spec.api4kp._20200801.AbstractCarrier;
 import org.omg.spec.api4kp._20200801.Answer;
-import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.BindingApiInternal;
-import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal;
-import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
+import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal._assembleCompositeArtifact;
+import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal._flattenArtifact;
+import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal._getKnowledgeBaseStructure;
+import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal._namedWeave;
 import org.omg.spec.api4kp._20200801.api.terminology.v4.server.TermsApiInternal;
 import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.DeserializeApiInternal;
 import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.TransxionApiInternal;
@@ -74,20 +75,20 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
       asList(new CmmnToPlanDefTranslator(), new DmnToPlanDefTranslator())
   );
 
-  KnowledgeBaseApiInternal kbManager
+  KnowledgeBaseProvider kbManager
       = new KnowledgeBaseProvider(repo);
 
-  KnowledgeBaseApiInternal._getKnowledgeBaseStructure constructor
+  _namedWeave weaver
+      = DMNDefToPlanDefWeaver.newInstance(kbManager, getMockTermServer());
+
+  _getKnowledgeBaseStructure constructor
       = DependencyBasedConstructor.newInstance(repo);
 
-  CompositionalApiInternal._flattenArtifact flattener
+  _flattenArtifact flattener
       = new PlanDefinitionFlattener();
 
-  CompositionalApiInternal._assembleCompositeArtifact assembler
+  _assembleCompositeArtifact assembler
       = GraphBasedAssembler.newInstance(repo);
-
-  BindingApiInternal._weave weaver =
-      DMNDefToPlanDefWeaver.newInstance(kbManager, getMockTermServer());
 
 
   @BeforeEach
