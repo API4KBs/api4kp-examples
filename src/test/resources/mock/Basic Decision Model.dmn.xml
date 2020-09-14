@@ -28,21 +28,9 @@
     <semantic:inputData href="#_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d"/>
     <semantic:inputData href="#_ffc7572a-2d99-4721-8cf0-a0f2f0aa5f13"/>
   </semantic:decisionService>
-  <semantic:decision id="_4a4a026a-5de7-4b57-aad9-e0ce1f8a9719" name="Basic Decision">
+  <semantic:decision id="_4a4a026a-5de7-4b57-aad9-e0ce1f8a9719"
+    name="Basic Decision - History Pertinent to Condition">
     <semantic:extensionElements>
-      <surr:annotation
-      >
-        <surr:rel name="defines"
-          namespaceUri="https://www.omg.org/spec/API4KP/api4kp/defines"
-          resourceId="https://www.omg.org/spec/API4KP/api4kp/defines"
-          tag="defines"/>
-        <surr:ref
-          name="PropositionalConcepts - 20190801 - Management of Aortic Stenosisin 'PropositionalConcepts - 20190801'Beta Blocker for HFrEF"
-          namespaceUri="https://ontology.mayo.edu/taxonomies/clinicalsituations#"
-          referentId="https://ontology.mayo.edu/taxonomies/propositionalconcepts/20190801/"
-          resourceId="https://ontology.mayo.edu/taxonomies/clinicalsituations#e9b34549-7e35-3e85-8d35-d01321c87bf3"
-          tag="_623e1cca-b3c6-4203-ade0-85ba042141db"/>
-      </surr:annotation>
       <surr:annotation
       >
         <surr:ref
@@ -52,9 +40,45 @@
           resourceId="https://ontology.mayo.edu/taxonomies/KAO/KnowledgeAssetType#56b58fc2-b66f-3175-878e-bc3ef01cb916"
           tag="_1ab9d894-42a5-48af-aed6-d76ba965214a"/>
       </surr:annotation>
+      <surr:annotation
+      >
+        <surr:rel name="captures"
+          namespaceUri="https://www.omg.org/spec/API4KP/api4kp/captures"
+          resourceId="https://www.omg.org/spec/API4KP/api4kp/captures"
+          tag="captures"/>
+        <surr:ref name="DecisionTypes - 20190801 - Naturalistic Decision"
+          namespaceUri="https://ontology.mayo.edu/taxonomies/KAO/DecisionType#"
+          referentId="https://ontology.mayo.edu/taxonomies/KAO/DecisionType/20190801/"
+          resourceId="https://ontology.mayo.edu/taxonomies/KAO/DecisionType#20953273-18b7-3ec2-813f-1e71808e9823"
+          tag="_46270393-6eb6-413c-a35c-d7855d82625a"/>
+      </surr:annotation>
+      <surr:annotation
+      >
+        <surr:rel name="captures"
+          namespaceUri="https://www.omg.org/spec/API4KP/api4kp/captures"
+          resourceId="https://www.omg.org/spec/API4KP/api4kp/captures"
+          tag="captures"/>
+        <surr:ref name="DecisionTypes - 20190801 - Assessment Decision"
+          namespaceUri="https://ontology.mayo.edu/taxonomies/KAO/DecisionType#"
+          referentId="https://ontology.mayo.edu/taxonomies/KAO/DecisionType/20190801/"
+          resourceId="https://ontology.mayo.edu/taxonomies/KAO/DecisionType#d03ea564-0d31-3e72-a98b-cb93aa4c5cce"
+          tag="_9e4aa1ab-a596-4b76-b19d-3af497cffff7"/>
+      </surr:annotation>
+      <surr:annotation
+      >
+        <surr:rel name="captures"
+          namespaceUri="https://www.omg.org/spec/API4KP/api4kp/captures"
+          resourceId="https://www.omg.org/spec/API4KP/api4kp/captures"
+          tag="captures"/>
+        <surr:ref name="DecisionTypes - 20190801 - Aggregation Decision"
+          namespaceUri="https://ontology.mayo.edu/taxonomies/KAO/DecisionType#"
+          referentId="https://ontology.mayo.edu/taxonomies/KAO/DecisionType/20190801/"
+          resourceId="https://ontology.mayo.edu/taxonomies/KAO/DecisionType#7a42c227-08ed-36af-a332-b6f04cc457b3"
+          tag="_24df23eb-c409-419d-b0d7-40e74c23b28d"/>
+      </surr:annotation>
     </semantic:extensionElements>
     <semantic:variable id="_55bda1ac-16c0-4a1d-9450-0ee7d32fc632"
-      name="Basic Decision"
+      name="Basic Decision - History Pertinent to Condition"
       typeRef="boolean"/>
     <semantic:informationRequirement id="_d6bd23cf-1f09-4b3d-b595-e6a490e6f016">
       <semantic:requiredInput href="#_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d"/>
@@ -64,7 +88,7 @@
     </semantic:informationRequirement>
     <semantic:decisionTable hitPolicy="UNIQUE"
       id="_9f5d8814-fad2-47c0-b6f2-1e1ebffb9f34"
-      outputLabel="Basic Decision"
+      outputLabel="Basic Decision - History Pertinent to Condition"
       typeRef="boolean">
       <semantic:input id="_52381df1-592e-4605-b61a-3f3496eea584" label="Input 1">
         <semantic:inputExpression typeRef="boolean">
@@ -122,7 +146,8 @@
       </semantic:rule>
     </semantic:decisionTable>
   </semantic:decision>
-  <semantic:inputData id="_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d" name="Input 1">
+  <semantic:inputData id="_c8828c20-d075-42bf-bc5e-ad5b4e52ef1d"
+    name="Test History of Medication Therapy">
     <semantic:extensionElements>
       <surr:annotation
       >
@@ -139,10 +164,11 @@
       </surr:annotation>
     </semantic:extensionElements>
     <semantic:variable id="_c52decf4-65c7-49d3-8cc8-8dda5a2580ce"
-      name="Input 1"
+      name="Test History of Medication Therapy"
       typeRef="boolean"/>
   </semantic:inputData>
-  <semantic:inputData id="_ffc7572a-2d99-4721-8cf0-a0f2f0aa5f13" name="Input 2">
+  <semantic:inputData id="_ffc7572a-2d99-4721-8cf0-a0f2f0aa5f13"
+    name="Test History of Condition">
     <semantic:extensionElements>
       <surr:annotation
       >
@@ -159,16 +185,13 @@
       </surr:annotation>
     </semantic:extensionElements>
     <semantic:variable id="_5445c35a-23e6-4791-ada7-58ea4311b339"
-      name="Input 2"
+      name="Test History of Condition"
       typeRef="boolean"/>
   </semantic:inputData>
   <semantic:textAnnotation id="_beaf959c-3920-4839-9ba7-03bd1193e5b1">
     <semantic:text>Test model with:
-      1. top level decision annotated with fragment type, asset type, and propositional concept
-      2. two inputs with data type boolean and propositional concepts
-      3. decision logic with output boolean
-      4. decision service - two inputs as input, boolean output of basic decision as output
-      5. Asset ID on the top level decision as custom attribute
+      1. top level decision annotated with fragment type, asset type and asset ID
+      2. two test inputs with multiple resources
     </semantic:text>
   </semantic:textAnnotation>
   <dmndi:DMNDI>
@@ -208,7 +231,7 @@
       </dmndi:DMNShape>
       <dmndi:DMNShape dmnElementRef="_beaf959c-3920-4839-9ba7-03bd1193e5b1"
         id="_3290b63c-1173-4b8a-a598-dcb9e399315c">
-        <dc:Bounds height="149" width="251" x="984" y="178.5"/>
+        <dc:Bounds height="65" width="251" x="984" y="178.5"/>
         <dmndi:DMNLabel sharedStyle="LS_ee0c768a-a0d4-4052-a6ea-fc0a3889b356_0"/>
       </dmndi:DMNShape>
       <dmndi:DMNEdge dmnElementRef="_d6bd23cf-1f09-4b3d-b595-e6a490e6f016"

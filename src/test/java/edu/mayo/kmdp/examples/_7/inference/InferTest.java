@@ -1,6 +1,7 @@
 package edu.mayo.kmdp.examples._7.inference;
 
 import static edu.mayo.kmdp.kbase.introspection.dmn.v1_1.DMN11MetadataIntrospector.DMN1_1_EXTRACTOR;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.of;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;

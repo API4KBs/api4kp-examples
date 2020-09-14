@@ -38,9 +38,9 @@ public enum MockVocab implements Term {
   public static final Map<UUID, MockVocab> INDEX = Arrays.stream(MockVocab.values())
       .collect(Collectors.toConcurrentMap(Term::getUuid, Function.identity()));
 
-  private UUID uuid;
-  private String tag;
-  private String label;
+  private final UUID uuid;
+  private final String tag;
+  private final String label;
 
   MockVocab(final String code,
       final String displayName) {
@@ -102,6 +102,11 @@ public enum MockVocab implements Term {
   @Override
   public URI getNamespaceUri() {
     return URI.create("urn:uuid");
+  }
+
+  @Override
+  public URI getVersionId() {
+    return URI.create("urn:uuid:" + uuid.toString() + ":" + getVersionTag());
   }
 
   @Override
