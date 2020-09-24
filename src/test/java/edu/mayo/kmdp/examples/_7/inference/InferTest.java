@@ -1,8 +1,5 @@
 package edu.mayo.kmdp.examples._7.inference;
 
-import static edu.mayo.kmdp.kbase.introspection.dmn.v1_1.DMN11MetadataIntrospector.DMN1_1_EXTRACTOR;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.emptyMap;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.of;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.artifactId;
@@ -12,13 +9,11 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeReprese
 
 import edu.mayo.kmdp.examples._3.publish.PublicationTest;
 import edu.mayo.kmdp.kbase.inference.dmn.v1_1.DMNEngineProvider;
-import edu.mayo.kmdp.kbase.introspection.dmn.v1_1.DMN11MetadataIntrospector;
 import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
+import edu.mayo.kmdp.knowledgebase.introspectors.dmn.v1_1.DMN11MetadataIntrospector;
 import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
 import edu.mayo.kmdp.util.FileUtil;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import org.hl7.fhir.dstu3.model.BooleanType;
 import org.hl7.fhir.dstu3.model.IntegerType;
@@ -27,8 +22,9 @@ import org.hl7.fhir.dstu3.model.Type;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.omg.spec.api4kp._20200801.AbstractCarrier.Encodings;
-import org.omg.spec.api4kp._20200801.api.inference.v4.server.InferenceApiInternal._infer;
+import org.omg.spec.api4kp._20200801.api.inference.v4.server.ReasoningApiInternal._evaluate;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
+import org.omg.spec.api4kp._20200801.datatypes.Bindings;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 
@@ -41,7 +37,8 @@ public class InferTest {
 
   KnowledgeAssetRepositoryService assetRepo = KnowledgeAssetRepositoryService
       .selfContainedRepository();
-  KnowledgeBaseApiInternal kbaseManager = new KnowledgeBaseProvider(assetRepo);
+  KnowledgeBaseApiInternal kbaseManager = new KnowledgeBaseProvider(assetRepo)
+      .withNamedIntrospector(introspector);
 
   private void publish() {
     byte[] modelData = FileUtil
@@ -54,14 +51,14 @@ public class InferTest {
 
     // introspect
     KnowledgeAsset surrogate =
-        introspector.introspect(DMN1_1_EXTRACTOR, artifactCarrier, null)
+        introspector.applyNamedIntrospectDirect(DMN11MetadataIntrospector.id, artifactCarrier, null)
             .flatOpt(kc -> kc.as(KnowledgeAsset.class))
             .orElseGet(Assertions::fail);
 
     assetRepo.publish(surrogate, artifactCarrier);
   }
 
-  private _infer initInference() {
+  private _evaluate initInference() {
     publish();
     return assetRepo
         // get Metadata
@@ -74,16 +71,16 @@ public class InferTest {
 
   @Test
   public void testInference() {
-    _infer infService = initInference();
+    _evaluate infService = initInference();
 
-    Map<String, Type> map = new HashMap<>();
+    Bindings<String,Type> map = new Bindings<>();
     map.put(MockVocab.Current_Caffeine_User.getTag(),
         new BooleanType().setValue(true));
     map.put(MockVocab.Current_Chronological_Age.getTag(),
         new IntegerType().setValue(37));
 
-    java.util.Map<?, ?> out = infService.infer(modelId, versionTag, map)
-        .orElse(emptyMap());
+    java.util.Map<?, ?> out = infService.evaluate(modelId, versionTag, map)
+        .orElseGet(Bindings::new);
 
     System.out.println(out);
     Quantity qty = (Quantity) out.get(MockVocab.Survival_Rate.getTag());
