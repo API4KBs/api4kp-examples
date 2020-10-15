@@ -78,7 +78,11 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
 
   KnowledgeBaseProvider kbManager
       = new KnowledgeBaseProvider(repo)
-      .withNamedWeaver(kbm -> new DMNDefToPlanDefWeaver(kbm, getMockTermServer()));
+      .withNamedWeaver(kbm ->
+          new DMNDefToPlanDefWeaver(
+              kbm,
+              getMockTermServer(),
+              URI.create("http://www.trisotech.com/definitions/_deda9ce8-ca68-456e-b9d1-96d338469988")));
 
   _getKnowledgeBaseStructure constructor
       = DependencyBasedConstructor.newInstance(repo);
