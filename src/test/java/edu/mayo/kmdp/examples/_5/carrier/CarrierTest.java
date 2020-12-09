@@ -109,9 +109,9 @@ public class CarrierTest {
         .orElse(Collections.emptyList());
     assertTrue(pointers.size() > 0);
 
-    ResourceIdentifier assetId = pointers.get(0);
+    ResourceIdentifier assetId = pointers.get(0);p
     KnowledgeCarrier kc = assetRepo
-        .getCanonicalKnowledgeAssetCarrier(assetId.getUuid(), assetId.getVersionTag())
+        .getKnowledgeAssetVersionCanonicalCarrier(assetId.getUuid(), assetId.getVersionTag())
         .orElseGet(Assertions::fail);
 
     System.out.println("Found Carrier w/ Lang >> " + kc.getRepresentation().getLanguage());
@@ -125,7 +125,7 @@ public class CarrierTest {
 
     ResourceIdentifier assetId = pointers.get(0);
     KnowledgeCarrier kc = assetRepo
-        .getCanonicalKnowledgeAssetCarrier(assetId.getUuid(), assetId.getVersionTag(),
+        .getKnowledgeAssetVersionCanonicalCarrier(assetId.getUuid(), assetId.getVersionTag(),
             "text/html")
         .orElseGet(Assertions::fail);
 

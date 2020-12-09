@@ -3,6 +3,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>kmdp-bom</artifactId>
     <groupId>edu.mayo.kmdp</groupId>
@@ -13,11 +14,9 @@
   <groupId>org.omg.spec</groupId>
   <version>9.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <modelVersion>4.0.0</modelVersion>
 
   <name>API4KP :: Examples</name>
-  <description>Examples of use of the API4KP APIs</description>
-  
+
   <developers>
     <developer>
       <name>Davide Sottara</name>
@@ -25,12 +24,14 @@
       <organization>Mayo Clinic</organization>
       <organizationUrl>http://www.mayo.edu</organizationUrl>
     </developer>
+
   </developers>
+  <description>Examples of use of the API4KP APIs</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <kmdp.servers.version>4.8.0-SNAPSHOT</kmdp.servers.version>
+    <kmdp.servers.version>4.9.1-SNAPSHOT</kmdp.servers.version>
   </properties>
 
   <dependencies>
