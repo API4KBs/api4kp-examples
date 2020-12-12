@@ -20,7 +20,6 @@ import static org.omg.spec.api4kp._20200801.taxonomy.lexicon.LexiconSeries.SNOME
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Abstract_Knowledge_Expression;
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Concrete_Knowledge_Expression;
 
-import edu.mayo.kmdp.knowledgebase.weavers.fhir.stu3.DMNDefToPlanDefWeaver;
 import edu.mayo.kmdp.util.JenaUtil;
 import edu.mayo.kmdp.util.fhir.fhir3.FHIR3JsonUtil;
 import java.util.Arrays;
@@ -116,23 +115,8 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
     KnowledgeCarrier dictionary =
         loadDictionary();
 
-    KnowledgeCarrier wovenComposite =
-        // Init empty KB
-        kbManager.initKnowledgeBase()
-            // Add composite to KB
-            .flatMap(vid ->
-                kbManager.populateKnowledgeBase(vid.getUuid(), vid.getVersionTag(),
-                    parsedComposite))
-            // IoC : the weaver will retrieve the KB from the manager and apply the dictionary to the KB content
-            .flatMap(vid ->
-                kbManager.weave(vid.getUuid(), vid.getVersionTag(), dictionary))
-            // Get the result
-            .flatMap(vid ->
-                kbManager.getKnowledgeBaseManifestation(vid.getUuid(), vid.getVersionTag()))
-            .orElseGet(Assertions::fail);
-
     KnowledgeCarrier decisionModelComponent
-        = ((CompositeKnowledgeCarrier) wovenComposite).getComponent().get(1);
+        = ((CompositeKnowledgeCarrier) parsedComposite).getComponent().get(1);
     parser.applyLower(decisionModelComponent, Concrete_Knowledge_Expression)
         .ifPresent(ec -> System.out.println(ec.getExpression()));
   }
@@ -140,24 +124,14 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
 
   @Test
   public void testStep5() {
-    KnowledgeCarrier parsedComposite =
+    Answer<KnowledgeCarrier> parsedComposite = Answer.of(
         constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion())
             .flatMap(kc -> assembler.assembleCompositeArtifact(kc))
             .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression))
-            .orElseGet(Assertions::fail);
-
-    Answer<KnowledgeCarrier> wovenComposite =
-        kbManager.initKnowledgeBase()
-            .flatMap(vid ->
-                kbManager.populateKnowledgeBase(vid.getUuid(), vid.getVersionTag(),
-                    parsedComposite))
-            .flatMap(vid ->
-                kbManager.weave(vid.getUuid(), vid.getVersionTag(), loadDictionary()))
-            .flatMap(vid ->
-                kbManager.getKnowledgeBaseManifestation(vid.getUuid(), vid.getVersionTag()));
+            .orElseGet(Assertions::fail));
 
     KnowledgeCarrier planDefinitionComposite =
-        wovenComposite.flatMap(ckc ->
+        parsedComposite.flatMap(ckc ->
             translator.applyTransrepresent(
                 ckc,
                 ModelMIMECoder.encode(rep(FHIR_STU3, SNOMED_CT, PCV)),
@@ -175,12 +149,6 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
         constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion())
             .flatMap(kc -> assembler.assembleCompositeArtifact(kc))
             .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression))
-            .flatMap(parsedComposite ->
-                kbManager.initKnowledgeBase(parsedComposite)
-                    .flatMap(vid ->
-                        kbManager.namedWeave(vid.getUuid(), vid.getVersionTag(), DMNDefToPlanDefWeaver.id, loadDictionary()))
-                    .flatMap(vid ->
-                        kbManager.getKnowledgeBaseManifestation(vid.getUuid(), vid.getVersionTag())))
             .flatMap(ckc ->
                 translator.applyTransrepresent(
                     ckc,

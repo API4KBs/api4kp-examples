@@ -32,7 +32,6 @@ import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
 import edu.mayo.kmdp.knowledgebase.assemblers.rdf.GraphBasedAssembler;
 import edu.mayo.kmdp.knowledgebase.constructors.DependencyBasedConstructor;
 import edu.mayo.kmdp.knowledgebase.flatteners.fhir.stu3.PlanDefinitionFlattener;
-import edu.mayo.kmdp.knowledgebase.weavers.fhir.stu3.DMNDefToPlanDefWeaver;
 import edu.mayo.kmdp.language.LanguageDeSerializer;
 import edu.mayo.kmdp.language.TransrepresentationExecutor;
 import edu.mayo.kmdp.language.parsers.cmmn.v1_1.CMMN11Parser;
@@ -77,12 +76,7 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
   );
 
   KnowledgeBaseProvider kbManager
-      = new KnowledgeBaseProvider(repo)
-      .withNamedWeaver(kbm ->
-          new DMNDefToPlanDefWeaver(
-              kbm,
-              getMockTermServer(),
-              URI.create("http://www.trisotech.com/definitions/_deda9ce8-ca68-456e-b9d1-96d338469988")));
+      = new KnowledgeBaseProvider(repo);
 
   _getKnowledgeBaseStructure constructor
       = DependencyBasedConstructor.newInstance(repo);

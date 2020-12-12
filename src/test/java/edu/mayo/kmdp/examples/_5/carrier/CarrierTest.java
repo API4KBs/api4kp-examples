@@ -109,7 +109,7 @@ public class CarrierTest {
         .orElse(Collections.emptyList());
     assertTrue(pointers.size() > 0);
 
-    ResourceIdentifier assetId = pointers.get(0);p
+    ResourceIdentifier assetId = pointers.get(0);
     KnowledgeCarrier kc = assetRepo
         .getKnowledgeAssetVersionCanonicalCarrier(assetId.getUuid(), assetId.getVersionTag())
         .orElseGet(Assertions::fail);
