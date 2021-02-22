@@ -1,9 +1,10 @@
 package edu.mayo.kmdp.examples._0.basic;
 
+import static edu.mayo.kmdp.registry.Registry.BASE_UUID_URN_URI;
+import static edu.mayo.kmdp.util.Util.uuid;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
-import static org.omg.spec.api4kp._20200801.id.IdentifierConstants.VERSION_ZERO;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.artifactId;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.assetId;
 import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationFormatSeries.XML_1_1;
@@ -40,8 +41,8 @@ public class CarrierExample {
             + "</body> "
             + "</html> ")
         .withRepresentation(rep(XHTML, XML_1_1))
-        .withAssetId(assetId("asset000", VERSION_ZERO))
-        .withArtifactId(artifactId("artifact123", "0.0.1"))
+        .withAssetId(assetId(BASE_UUID_URN_URI,uuid("asset000")))
+        .withArtifactId(artifactId(BASE_UUID_URN_URI,"artifact123", "0.0.1"))
         .withHref(URI.create("http://www.foo.bar/home"));
 
     assertNotNull(kc.getAssetId());

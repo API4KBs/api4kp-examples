@@ -1,5 +1,6 @@
 package edu.mayo.kmdp.examples._7.inference;
 
+import static edu.mayo.kmdp.registry.Registry.BASE_UUID_URN_URI;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.of;
 import static org.omg.spec.api4kp._20200801.AbstractCarrier.rep;
 import static org.omg.spec.api4kp._20200801.surrogate.SurrogateBuilder.artifactId;
@@ -25,6 +26,7 @@ import org.omg.spec.api4kp._20200801.AbstractCarrier.Encodings;
 import org.omg.spec.api4kp._20200801.api.inference.v4.server.ReasoningApiInternal._evaluate;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal;
 import org.omg.spec.api4kp._20200801.datatypes.Bindings;
+import org.omg.spec.api4kp._20200801.id.IdentifierConstants;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
 
@@ -45,8 +47,8 @@ public class InferTest {
         .readBytes(PublicationTest.class.getResourceAsStream("/mock/MockPredictor.dmn"))
         .orElseGet(Assertions::fail);
     KnowledgeCarrier artifactCarrier = of(modelData)
-        .withAssetId(assetId(modelId, versionTag))
-        .withArtifactId(artifactId(UUID.randomUUID().toString(), versionTag))
+        .withAssetId(assetId(BASE_UUID_URN_URI, modelId, IdentifierConstants.VERSION_ZERO))
+        .withArtifactId(artifactId(BASE_UUID_URN_URI, UUID.randomUUID().toString(), versionTag))
         .withRepresentation(rep(DMN_1_1, XML_1_1, Charset.defaultCharset(), Encodings.DEFAULT));
 
     // introspect

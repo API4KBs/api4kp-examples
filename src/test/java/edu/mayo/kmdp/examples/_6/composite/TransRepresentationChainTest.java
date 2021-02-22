@@ -30,6 +30,9 @@ import org.hl7.fhir.dstu3.model.PlanDefinition;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.omg.spec.api4kp._20200801.Answer;
+import org.omg.spec.api4kp._20200801.id.IdentifierConstants;
+import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
+import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.CompositeKnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.services.transrepresentation.ModelMIMECoder;
@@ -42,6 +45,13 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
         "/mock/Basic Case Model.cmmn.xml",
         "/mock/Basic Decision Model.dmn.xml"
     );
+  }
+
+  @Override
+  protected ResourceIdentifier getCompositeAssetId() {
+    return SemanticIdentifier.newId(
+        UUID.fromString("4aab3ff1-bf86-40ec-868c-8fa5bf726c7f"),
+        IdentifierConstants.VERSION_ZERO);
   }
 
   @Override

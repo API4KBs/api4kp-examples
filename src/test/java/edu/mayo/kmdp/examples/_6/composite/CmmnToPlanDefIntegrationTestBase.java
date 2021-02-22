@@ -15,7 +15,6 @@ package edu.mayo.kmdp.examples._6.composite;
 
 import static java.nio.charset.Charset.defaultCharset;
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -50,11 +49,11 @@ import org.omg.spec.api4kp._20200801.Answer;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal._assembleCompositeArtifact;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.CompositionalApiInternal._flattenArtifact;
 import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.KnowledgeBaseApiInternal._getKnowledgeBaseStructure;
-import org.omg.spec.api4kp._20200801.api.knowledgebase.v4.server.TranscreateApiInternal._applyNamedWeave;
 import org.omg.spec.api4kp._20200801.api.terminology.v4.server.TermsApiInternal;
 import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.DeserializeApiInternal;
 import org.omg.spec.api4kp._20200801.api.transrepresentation.v4.server.TransxionApiInternal;
 import org.omg.spec.api4kp._20200801.id.Pointer;
+import org.omg.spec.api4kp._20200801.id.ResourceIdentifier;
 import org.omg.spec.api4kp._20200801.id.SemanticIdentifier;
 import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 import org.omg.spec.api4kp._20200801.surrogate.KnowledgeAsset;
@@ -79,7 +78,7 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
       = new KnowledgeBaseProvider(repo);
 
   _getKnowledgeBaseStructure constructor
-      = DependencyBasedConstructor.newInstance(repo);
+      = DependencyBasedConstructor.newInstance(repo, getCompositeAssetId());
 
   _flattenArtifact flattener
       = new PlanDefinitionFlattener();
@@ -172,6 +171,8 @@ public abstract class CmmnToPlanDefIntegrationTestBase {
 
 
   protected abstract List<String> getXMLS();
+
+  protected abstract ResourceIdentifier getCompositeAssetId();
 
   protected abstract UUID getRootAssetID();
 
