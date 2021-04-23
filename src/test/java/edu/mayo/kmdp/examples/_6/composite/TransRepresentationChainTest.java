@@ -74,7 +74,7 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
     // The operation then returns a 'structure', which is effectively an 'intensional' manifestation of a new, composite Asset
     Model struct =
 
-        constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion())
+        constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion(), null)
 
             .flatOpt(kc -> kc.as(Model.class))
             .orElseGet(Assertions::fail);
@@ -87,8 +87,8 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
   public void testStep2() {
     KnowledgeCarrier composite =
 
-        constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion())
-            .flatMap(kc -> assembler.assembleCompositeArtifact(kc))
+        constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion(), null)
+            .flatMap(kc -> assembler.assembleCompositeArtifact(kc, null))
 
             .orElseGet(Assertions::fail);
 
@@ -103,22 +103,23 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
   public void testStep3() {
     KnowledgeCarrier composite =
 
-        constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion())
-            .flatMap(kc -> assembler.assembleCompositeArtifact(kc))
+        constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion(), null)
+            .flatMap(kc -> assembler.assembleCompositeArtifact(kc, null))
             .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression))
 
             .orElseGet(Assertions::fail);
 
     CompositeKnowledgeCarrier ckc = (CompositeKnowledgeCarrier) composite;
     ckc.getComponent().forEach(comp ->
-        System.out.println("Component : " + comp.getRepresentation().getLanguage() + " " + comp.getLevel()));
+        System.out.println(
+            "Component : " + comp.getRepresentation().getLanguage() + " " + comp.getLevel()));
   }
 
   @Test
   public void testStep4() {
     KnowledgeCarrier parsedComposite =
-        constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion())
-            .flatMap(kc -> assembler.assembleCompositeArtifact(kc))
+        constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion(), null)
+            .flatMap(kc -> assembler.assembleCompositeArtifact(kc, null))
             .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression))
             .orElseGet(Assertions::fail);
 
@@ -135,8 +136,8 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
   @Test
   public void testStep5() {
     Answer<KnowledgeCarrier> parsedComposite = Answer.of(
-        constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion())
-            .flatMap(kc -> assembler.assembleCompositeArtifact(kc))
+        constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion(), null)
+            .flatMap(kc -> assembler.assembleCompositeArtifact(kc, null))
             .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression))
             .orElseGet(Assertions::fail));
 
@@ -150,14 +151,15 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
 
     CompositeKnowledgeCarrier ckc = (CompositeKnowledgeCarrier) planDefinitionComposite;
     ckc.getComponent().forEach(comp ->
-        System.out.println("Component : " + comp.getRepresentation().getLanguage() + " " + comp.getLevel()));
+        System.out.println(
+            "Component : " + comp.getRepresentation().getLanguage() + " " + comp.getLevel()));
   }
 
   @Test
   public void testStep6() {
     KnowledgeCarrier planDefinitionComposite =
-        constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion())
-            .flatMap(kc -> assembler.assembleCompositeArtifact(kc))
+        constructor.getKnowledgeBaseStructure(getRootAssetID(), getRootAssetVersion(), null)
+            .flatMap(kc -> assembler.assembleCompositeArtifact(kc, null))
             .flatMap(kc -> parser.applyLift(kc, Abstract_Knowledge_Expression))
             .flatMap(ckc ->
                 translator.applyTransrepresent(
@@ -167,7 +169,7 @@ public class TransRepresentationChainTest extends CmmnToPlanDefIntegrationTestBa
             .orElseGet(Assertions::fail);
 
     KnowledgeCarrier flatPlanDef = flattener
-        .flattenArtifact(planDefinitionComposite, getRootAssetID())
+        .flattenArtifact(planDefinitionComposite, getRootAssetID(), null)
         .orElseGet(Assertions::fail);
 
     System.out.println("Component : " + flatPlanDef.getRepresentation().getLanguage());

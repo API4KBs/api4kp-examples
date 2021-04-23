@@ -9,7 +9,6 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeReprese
 import static org.omg.spec.api4kp._20200801.taxonomy.parsinglevel.ParsingLevelSeries.Serialized_Knowledge_Expression;
 
 import edu.mayo.kmdp.examples.PlatformConfig;
-import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
 import edu.mayo.kmdp.knowledgebase.introspectors.dmn.v1_2.DMN12MetadataIntrospector;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -50,7 +49,8 @@ public class IntrospectionTest {
                 .withAssetId(randomAssetId())
                 .withArtifactId(randomArtifactId())
                 .withRepresentation(
-                    rep(DMN_1_2, XML_1_1, Charset.defaultCharset(), Encodings.DEFAULT)))
+                    rep(DMN_1_2, XML_1_1, Charset.defaultCharset(), Encodings.DEFAULT)),
+            null)
             .flatMap(kb -> introspector.namedIntrospect(
                 kb.getUuid(),
                 kb.getVersionTag(),

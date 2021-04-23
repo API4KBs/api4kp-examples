@@ -33,28 +33,26 @@ import org.omg.spec.api4kp._20200801.services.KnowledgeCarrier;
 
 /**
  * This example showcases an integration of GraphQL and SPARQL
- *
- * A GraphQL schema is defined, and used in a GraphQL engine to submit GraphQL queries
- *  - The definition is parsed as GRAPHQL_SCHEMA
- *  - Published (with Inferred metadata) to a Knowledge Asset Repository
- *
- * The GraphQL engine delegates the retrieval of data to a SPARQL-based Resolver
- *  - A SPARQL query is parsed
- *  - then published (with Inferred metadata) to the Knowledge Asset Repository
- *  - An (asset to asset) dependency is asserted between the GraphQL schema and the SPARQL Query
- *
- * The GraphQL schema is used to initialize a Knowledge Base
- *   --> The dependency MAY be used to construct a composite KB (not shown in this example)
- *
- * The GraphQL KB is used to initialize a Query Engine
- *  - The engine uses the Metadata in the Asset Repository to discover the dependency
- *  - Retrieves the SPARQL query artifact
- *  - Parses and inspects the query to bind the Query as a Resolver of a specific Schema field
- *
- * The client submits a GraphQL query to the Engine, passing the Query and a pointer to the GraphQL KB
- *  - The engine API delegates the execution of the query to an out-of-the-box GraphQL engine
- *  - The GraphQL engine makes a callback to the SPARQL engine, which is also wrapped with API4KP
- *
+ * <p>
+ * A GraphQL schema is defined, and used in a GraphQL engine to submit GraphQL queries - The
+ * definition is parsed as GRAPHQL_SCHEMA - Published (with Inferred metadata) to a Knowledge Asset
+ * Repository
+ * <p>
+ * The GraphQL engine delegates the retrieval of data to a SPARQL-based Resolver - A SPARQL query is
+ * parsed - then published (with Inferred metadata) to the Knowledge Asset Repository - An (asset to
+ * asset) dependency is asserted between the GraphQL schema and the SPARQL Query
+ * <p>
+ * The GraphQL schema is used to initialize a Knowledge Base --> The dependency MAY be used to
+ * construct a composite KB (not shown in this example)
+ * <p>
+ * The GraphQL KB is used to initialize a Query Engine - The engine uses the Metadata in the Asset
+ * Repository to discover the dependency - Retrieves the SPARQL query artifact - Parses and inspects
+ * the query to bind the Query as a Resolver of a specific Schema field
+ * <p>
+ * The client submits a GraphQL query to the Engine, passing the Query and a pointer to the GraphQL
+ * KB - The engine API delegates the execution of the query to an out-of-the-box GraphQL engine -
+ * The GraphQL engine makes a callback to the SPARQL engine, which is also wrapped with API4KP
+ * <p>
  * The results are processed
  */
 class GraphQLTest {
@@ -107,7 +105,7 @@ class GraphQLTest {
 
     // Step 1c: Create a KnowledgeBase with the GraphQL Schema
     Answer<Pointer> gqlKBPointer = kbManager.initKnowledgeBase()
-        .flatMap(kb -> kbManager.initKnowledgeBase(kc2));
+        .flatMap(kb -> kbManager.initKnowledgeBase(kc2, null));
 
     // ---------------------------------------------------------------------------------------- /
 
@@ -120,8 +118,8 @@ class GraphQLTest {
     List<Bindings> response =
         gqlQuery.flatMap(query ->
             gqlKBPointer.flatMap(ptr ->
-                gqlQueryEngine.askQuery(ptr.getUuid(), ptr.getVersionTag(), query)))
-        .orElseGet(Assertions::fail);
+                gqlQueryEngine.askQuery(ptr.getUuid(), ptr.getVersionTag(), query, null)))
+            .orElseGet(Assertions::fail);
 
     // Step 4: Process Results
     assertEquals(1, response.size());

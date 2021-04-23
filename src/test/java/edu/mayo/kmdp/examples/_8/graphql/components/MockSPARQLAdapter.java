@@ -20,7 +20,7 @@ public class MockSPARQLAdapter implements _askQuery {
 
   public static ResourceIdentifier DATABASE_ID = SemanticIdentifier.randomId();
 
-  private _askQuery jenaQuery;
+  private final _askQuery jenaQuery;
 
   public MockSPARQLAdapter(KnowledgeBaseApiInternal kbManager) {
     this.jenaQuery = new JenaQuery(kbManager::getKnowledgeBase);
@@ -29,12 +29,14 @@ public class MockSPARQLAdapter implements _askQuery {
     kbManager.initKnowledgeBase(
         AbstractCarrier.ofAst(ModelFactory.createDefaultModel())
             .withRepresentation(rep(OWL_2))
-            .withAssetId(DATABASE_ID));
+            .withAssetId(DATABASE_ID),
+        null);
   }
 
   @Override
-  public Answer<List<Bindings>> askQuery(UUID kbID, String kbVersion, KnowledgeCarrier sparqlQuery) {
-    return jenaQuery.askQuery(kbID, kbVersion, sparqlQuery);
+  public Answer<List<Bindings>> askQuery(
+      UUID kbID, String kbVersion, KnowledgeCarrier sparqlQuery, String xConfig) {
+    return jenaQuery.askQuery(kbID, kbVersion, sparqlQuery, xConfig);
   }
 
 

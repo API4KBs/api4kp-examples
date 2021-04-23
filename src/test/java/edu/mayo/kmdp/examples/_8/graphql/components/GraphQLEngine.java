@@ -46,7 +46,7 @@ public class GraphQLEngine implements _askQuery {
   private final _applyLift gqlSchemaParser = new GraphQLDSLParser();
   private final _applyLift sqlLifter = new SparqlLifter();
 
-  private MockSPARQLAdapter sparqlBackend;
+  private final MockSPARQLAdapter sparqlBackend;
 
   public GraphQLEngine(
       KnowledgeAssetCatalogApi cat,
@@ -59,7 +59,8 @@ public class GraphQLEngine implements _askQuery {
   }
 
   @Override
-  public Answer<List<Bindings>> askQuery(UUID kBaseId, String versionTag, KnowledgeCarrier queryCarrier) {
+  public Answer<List<Bindings>> askQuery
+      (UUID kBaseId, String versionTag, KnowledgeCarrier queryCarrier, String xConfig) {
     Answer<KnowledgeCarrier> schema =
         kbManager.getKnowledgeBaseManifestation(kBaseId, versionTag);
 
@@ -87,13 +88,14 @@ public class GraphQLEngine implements _askQuery {
 
   private RuntimeWiring bindResolvers(Map<String, KnowledgeCarrier> resolvers) {
     Builder wiring = newRuntimeWiring();
-    resolvers.forEach((field,resolver) ->
+    resolvers.forEach((field, resolver) ->
         wiring.type("Query",
             builder -> builder.dataFetcher(
                 field,
                 dataFetchingEnvironment ->
                     sparqlBackend
-                        .askQuery(DATABASE_ID.getUuid(), DATABASE_ID.getVersionTag(), resolver)
+                        .askQuery(DATABASE_ID.getUuid(), DATABASE_ID.getVersionTag(), resolver,
+                            null)
                         .filter(l -> !l.isEmpty())
                         .map(l -> l.get(0))
                         .map(b -> (String) b.get(field))
@@ -105,7 +107,8 @@ public class GraphQLEngine implements _askQuery {
     return links(schemaSurrogate, Dependency.class, Imports)
         .map(rid -> repo
             .getKnowledgeAssetCanonicalCarrier(rid.getUuid(), rid.getVersionTag())
-            .flatMap(kc -> sqlLifter.applyLift(kc, Abstract_Knowledge_Expression, codedRep(SPARQL_1_1), null)))
+            .flatMap(kc -> sqlLifter
+                .applyLift(kc, Abstract_Knowledge_Expression, codedRep(SPARQL_1_1), null)))
         .flatMap(Answer::trimStream)
         .collect(Collectors.toMap(
             this::detectResolved,

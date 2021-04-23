@@ -75,13 +75,13 @@ public class InferTest {
   public void testInference() {
     _evaluate infService = initInference();
 
-    Bindings<String,Type> map = new Bindings<>();
+    Bindings<String, Type> map = new Bindings<>();
     map.put(MockVocab.Current_Caffeine_User.getTag(),
         new BooleanType().setValue(true));
     map.put(MockVocab.Current_Chronological_Age.getTag(),
         new IntegerType().setValue(37));
 
-    java.util.Map<?, ?> out = infService.evaluate(modelId, versionTag, map)
+    java.util.Map<?, ?> out = infService.evaluate(modelId, versionTag, map, null)
         .orElseGet(Bindings::new);
 
     System.out.println(out);
