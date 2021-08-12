@@ -6,16 +6,16 @@
   <surr:formalType
     referentId="http://ontology.mayo.edu/ontologies/clinicalknowledgeassets/CareProcessModel"
     resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType#434e06c0-e3df-3e57-9862-144f7c7857c4"
-    versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType/versions/20190801#434e06c0-e3df-3e57-9862-144f7c7857c4"
-    tag="CareProcessModel" versionTag="20190801" name="Care Process Model"
+    versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType/versions/20210401#434e06c0-e3df-3e57-9862-144f7c7857c4"
+    tag="CareProcessModel" versionTag="20210401" name="Care Process Model"
     namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType"
     establishedOn="2019-08-01T00:00:00">
     <id:uuid>434e06c0-e3df-3e57-9862-144f7c7857c4</id:uuid>
   </surr:formalType>
   <surr:formalCategory referentId="https://www.omg.org/spec/API4KP/api4kp-kao/ProcessAsset"
     resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetCategory#f9e2a69d-0f6e-3a2b-94c4-beaf6fdadaea"
-    versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetCategory/versions/20190801#f9e2a69d-0f6e-3a2b-94c4-beaf6fdadaea"
-    tag="ProcessAsset" versionTag="20190801"
+    versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetCategory/versions/20210401#f9e2a69d-0f6e-3a2b-94c4-beaf6fdadaea"
+    tag="ProcessAsset" versionTag="20210401"
     name="Plans, Processes, Pathways and Protocol Definitions"
     namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetCategory"
     establishedOn="2019-08-01T00:00:00">
@@ -50,7 +50,7 @@
     <surr:expressionCategory referentId="http://purl.org/dc/dcmitype/Software"
       resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeArtifactCategory#719d067b-2291-38f0-bbcf-a1da4ac4dede"
       versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeArtifactCategory/versions/20200911-165835#719d067b-2291-38f0-bbcf-a1da4ac4dede"
-      tag="Software" versionTag="20200911-165835" name="Software"
+      tag="Software" versionTag="20210401" name="Software"
       namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeArtifactCategory"
       establishedOn="2020-09-11T00:00:00">
       <id:uuid>719d067b-2291-38f0-bbcf-a1da4ac4dede</id:uuid>
@@ -59,7 +59,7 @@
       <surr:rel referentId="https://www.omg.org/spec/API4KP/api4kp-rel/imports"
         resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/DependencyRelType#a6878bf5-d858-3676-83a1-ef2871d36f47"
         versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/DependencyRelType/versions/20200911-165881#a6878bf5-d858-3676-83a1-ef2871d36f47"
-        tag="imports" versionTag="20200911-165881" name="imports"
+        tag="imports" versionTag="20210401" name="imports"
         namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/DependencyRelType"
         establishedOn="2020-08-01T00:00:00">
         <id:uuid>a6878bf5-d858-3676-83a1-ef2871d36f47</id:uuid>
@@ -77,7 +77,7 @@
       <api:language referentId="https://www.omg.org/spec/CMMN/1.1/"
         resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRLanguage#a995c317-45b1-3dca-ab12-d9aaa95b461b"
         versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRLanguage/versions/20200911-165868#a995c317-45b1-3dca-ab12-d9aaa95b461b"
-        tag="cmmn-v11" versionTag="20200911-165868" name="CMMN 1.1"
+        tag="cmmn-v11" versionTag="20210401" name="CMMN 1.1"
         namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KRLanguage"
         establishedOn="2020-09-11T00:00:00">
         <id:uuid>a995c317-45b1-3dca-ab12-d9aaa95b461b</id:uuid>
@@ -142,7 +142,7 @@
     <surr:rel referentId="https://www.omg.org/spec/API4KP/api4kp/dependsOn"
       resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/DependencyRelType#fdc5cdcb-de66-3674-8607-2a8ae01b6c38"
       versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/DependencyRelType/versions/20200801#fdc5cdcb-de66-3674-8607-2a8ae01b6c38"
-      tag="dependsOn" versionTag="20200801" name="depends on"
+      tag="dependsOn" versionTag="20210401" name="depends on"
       namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/DependencyRelType"
       establishedOn="2020-08-01T00:00:00">
       <id:uuid>fdc5cdcb-de66-3674-8607-2a8ae01b6c38</id:uuid>
@@ -160,7 +160,7 @@
     <surr:publicationStatus referentId="http://purl.org/spar/pso/published"
       resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/PublicationStatus#8f888fed-f6bd-3ff7-893c-6d76bb8dc21c"
       versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/PublicationStatus/versions/20200911-165847#8f888fed-f6bd-3ff7-893c-6d76bb8dc21c"
-      tag="published" versionTag="20200911-165847" name="published"
+      tag="published" versionTag="202010401" name="published"
       namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/PublicationStatus"
       establishedOn="2020-09-11T00:00:00">
       <id:uuid>8f888fed-f6bd-3ff7-893c-6d76bb8dc21c</id:uuid>

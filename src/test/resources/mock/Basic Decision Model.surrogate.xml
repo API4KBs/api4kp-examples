@@ -5,16 +5,16 @@
   xmlns:id="https://www.omg.org/spec/API4KP/20200801/id" name="Basic Decision Model">
   <surr:formalType referentId="https://www.omg.org/spec/API4KP/api4kp-kao/DecisionModel"
     resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType#310adb96-1a21-3100-90eb-c7ef4fe270e7"
-    versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType/versions/20190801#310adb96-1a21-3100-90eb-c7ef4fe270e7"
-    tag="DecisionModel" versionTag="20190801" name="Decision Model"
+    versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType/versions/20210401#310adb96-1a21-3100-90eb-c7ef4fe270e7"
+    tag="DecisionModel" versionTag="20210401" name="Decision Model"
     namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetType"
     establishedOn="2019-08-01T00:00:00">
     <id:uuid>310adb96-1a21-3100-90eb-c7ef4fe270e7</id:uuid>
   </surr:formalType>
   <surr:formalCategory referentId="https://www.omg.org/spec/API4KP/api4kp-kao/InferentialAsset"
     resourceId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetCategory#d4b0e868-60c8-387d-a139-e3c35427bfb6"
-    versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetCategory/versions/20190801#d4b0e868-60c8-387d-a139-e3c35427bfb6"
-    tag="InferentialAsset" versionTag="20190801"
+    versionId="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetCategory/versions/20210401#d4b0e868-60c8-387d-a139-e3c35427bfb6"
+    tag="InferentialAsset" versionTag="20210401"
     name="Assessment, Predictive and Inferential Models"
     namespaceUri="https://www.omg.org/spec/API4KP/20200801/taxonomy/KnowledgeAssetCategory"
     establishedOn="2019-08-01T00:00:00">
