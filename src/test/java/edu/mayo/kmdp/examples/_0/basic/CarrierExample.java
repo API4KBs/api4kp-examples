@@ -42,7 +42,7 @@ public class CarrierExample {
             + "</html> ")
         .withRepresentation(rep(XHTML, XML_1_1))
         .withAssetId(assetId(BASE_UUID_URN_URI,uuid("asset000")))
-        .withArtifactId(artifactId(BASE_UUID_URN_URI,"artifact123", "0.0.1"))
+        .withArtifactId(artifactId(BASE_UUID_URN_URI,uuid("artifact123"), "0.0.1"))
         .withHref(URI.create("http://www.foo.bar/home"));
 
     assertNotNull(kc.getAssetId());

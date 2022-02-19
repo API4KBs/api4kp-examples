@@ -9,7 +9,6 @@ import static org.omg.spec.api4kp._20200801.taxonomy.krformat.SerializationForma
 import static org.omg.spec.api4kp._20200801.taxonomy.krlanguage.KnowledgeRepresentationLanguageSeries.DMN_1_1;
 
 import edu.mayo.kmdp.examples._3.publish.PublicationTest;
-import edu.mayo.kmdp.kbase.inference.dmn.v1_1.DMNEngineProvider;
 import edu.mayo.kmdp.knowledgebase.KnowledgeBaseProvider;
 import edu.mayo.kmdp.knowledgebase.introspectors.dmn.v1_1.DMN11MetadataIntrospector;
 import edu.mayo.kmdp.repository.asset.KnowledgeAssetRepositoryService;
